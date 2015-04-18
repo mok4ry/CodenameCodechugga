@@ -6,7 +6,11 @@ questionApp.config(['$routeProvider', function($routeProvider) {
         .when('/', {
             templateUrl : './templates/home.htm'
         })
-
+        
+        .when('/comp', {
+            templateUrl : './templates/compPage.htm'  
+        })
+    
         .otherwise({
             redirectTo : '/'
         })

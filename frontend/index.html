@@ -9,26 +9,26 @@
         <script type="text/javascript" src="./lib/bootstrap.min.js"></script>
         <script type="text/javascript" src="./scripts/app.js"></script>
         <link href="./css/bootstrap.css" rel="stylesheet" media="screen">
+        <link href="./css/bootstrap-responsive.css" rel="stylesheet" media="screen">
+        <link href="./css/bootstrap-responsive.css" rel="stylesheet" media="screen">
+        <link href="./css/bootstrap-theme.css" rel="stylesheet" media="screen">
         <link href="./css/styles.css" rel="stylesheet">
     </head>
     <body>
         
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <ul class="nav navbar-nav">
-                        <li>
-                            <img class="navbar-brand" src="http://pngimg.com/upload/car_logo_PNG1667.png" width="40px"/>
-                        </li>
                         <li> 
-                            <h3>Codechugga</h1>
+                            <a class="navbar-brand" href="#">Codechugga</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
         
-        <div ng-view>
+        <div id="content" ng-view>
         </div>
         
     </body>
