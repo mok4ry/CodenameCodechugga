@@ -27,6 +27,7 @@
     height: 100%; 
     display:table-cell; 
     vertical-align: middle;
+}
 
 /**HTML ELEMENTS**/
 body {
@@ -40,6 +41,12 @@ html {
 }
 
 /**CUSTOM**/
+.homediv {
+  position: absolute;
+  top: 50%;
+  border: 1px dashed deeppink;
+}
+
 #content {
     height: 100%;
 }
@@ -52,7 +59,7 @@ html {
     
     border-right: 1px solid #d1d0d0;
 }
-    
+
 .fullheight {
     height:100%;   
 }
