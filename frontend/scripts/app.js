@@ -13,7 +13,8 @@ questionApp.config(['$routeProvider', function($routeProvider) {
         })
     
         .when('/create', {
-            templateUrl : './templates/create.htm'
+            templateUrl : './templates/create.htm',
+            controller  : 'CreateCtrl'
         })
               
         .when('/comp', {
