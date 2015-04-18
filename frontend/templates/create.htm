@@ -5,18 +5,20 @@
         </div>
         <div class="row-fluid">
             <h2> Competition Name </h2>
-            <input type="text" class="form-control" id="createName" placeholder="ex: BrickHacks">
+            <input type="text" class="form-control" ng-model="createName" placeholder="ex: BrickHacks">
         </div>
         <div class="row-fluid">
             <h2> Password </h2>
-            <input type="password" class="form-control" id="createPassword" placeholder="Password">
+            <input type="password" class="form-control" ng-model="createPassword" placeholder="Password">
         </div>
         <div class="row-fluid">
             <h2> Chugga-name </h2>
-            <input type="text" class="form-control" id="createUsername" placeholder="Chugga-name">
+            <input type="text" class="form-control" ng-model="createUsername" placeholder="Chugga-name">
         </div>
         <div class="row-fluid">
-            <a class="btn btn-large" href="#/modComp">Create Competition</a>
+                        <button class="btn btn-large" ng-click="submit()">
+                Create Competition
+            </button>
         </div>
     </div>
 </div>
