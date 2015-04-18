@@ -1,0 +1,19 @@
+.navbar-default {
+    background-color: #F5F5F5;  
+    border-style: solid;
+    border-color: #e5e5e5;
+    border-width: 1px;
+    min-height: 50px;
+    
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/*.navbar-default ul {
+    display: inline;
+    list-style-type: none;
+}*/
+
+body {
+    background-color: #F2F2F2;   
+}
