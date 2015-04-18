@@ -1,0 +1,5 @@
+.homediv {
+  position: absolute;
+  top: 50%;
+  border: 1px dashed deeppink;
+}
