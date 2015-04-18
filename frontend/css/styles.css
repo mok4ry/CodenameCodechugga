@@ -30,14 +30,14 @@
 }
 
 /**HTML ELEMENTS**/
-body {
-    background-color: #edecec;  
-    height: 100%;
-    padding-top: 40px;
-}
-
 html {
     height: 100%;   
+}
+
+body {
+    background-color: #edecec;  
+    padding-top: 40px;
+    height: 100%;
 }
 
 /**CUSTOM**/
@@ -52,12 +52,18 @@ html {
 }
 
 #participantContainer {
-    width: 250px;
-    min-height: 100%;
+    height: 100%;
     background-color: #f8f8f8;
-    padding: 10px;
-    
     border-right: 1px solid #d1d0d0;
+}
+
+.container-fluid.compPage {
+    padding: 0px;
+    height: 100%;
+}
+
+.row-fluid.compPage {
+    height: 100%;
 }
 
 .fullheight {
@@ -66,4 +72,38 @@ html {
 
 .title {
     margin-top: -150px;
+}
+
+.participantItem {
+    height: 35px;
+    border-bottom: 1px solid #eae8e8;
+    padding: 10px;
+}
+
+.participantTitle {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    float: left;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.participantScore {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    float: left;
+    color: #b9b4b4;
+}
+
+.participantStatus {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-color: #5abc7d;
+    border-radius: 10px;
+    float: right;
 }
