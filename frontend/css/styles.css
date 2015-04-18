@@ -1,0 +1,109 @@
+/**BOOTSTRAP**/
+.navbar-default {
+    background-color: #f8f8f8;  
+    border-style: solid;
+    border-color: #d1d0d0;
+    border-width: 1px;
+    /*min-height: 50px;*/
+    
+    /*margin-bottom: 0px;*/
+}
+
+.row {
+    margin-left: 0px;   
+}
+
+/* Used to vertically align contents in a fluid container */
+.container-fluid.valign {
+    height:100%;
+    display:table !important;
+    width: 100%;
+    padding: 0;
+    text-align: center;
+}
+
+/* Vertically aligned component in a fluid container */
+.row-fluid.valign {
+    height: 100%; 
+    display:table-cell; 
+    vertical-align: middle;
+}
+
+/**HTML ELEMENTS**/
+html {
+    height: 100%;   
+}
+
+body {
+    background-color: #edecec;  
+    padding-top: 40px;
+    height: 100%;
+}
+
+/**CUSTOM**/
+.homediv {
+  position: absolute;
+  top: 50%;
+  border: 1px dashed deeppink;
+}
+
+#content {
+    height: 100%;
+}
+
+#participantContainer {
+    height: 100%;
+    background-color: #f8f8f8;
+    border-right: 1px solid #d1d0d0;
+}
+
+.container-fluid.compPage {
+    padding: 0px;
+    height: 100%;
+}
+
+.row-fluid.compPage {
+    height: 100%;
+}
+
+.fullheight {
+    height:100%;   
+}
+
+.title {
+    margin-top: -150px;
+}
+
+.participantItem {
+    height: 35px;
+    border-bottom: 1px solid #eae8e8;
+    padding: 10px;
+}
+
+.participantTitle {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    float: left;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.participantScore {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    float: left;
+    color: #b9b4b4;
+}
+
+.participantStatus {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-color: #5abc7d;
+    border-radius: 10px;
+    float: right;
+}

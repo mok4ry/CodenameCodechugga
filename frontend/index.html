@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app="codechugga">
+    <head>
+        <title>Codename Code Chugga</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="./lib/angular-min.js"></script>
+        <script type="text/javascript" src="./lib/angular-routes-min.js"></script>
+        <script type="text/javascript" src="./lib/jquery-2.1.3.min.js"></script>
+        <script type="text/javascript" src="./lib/bootstrap.min.js"></script>
+        <script type="text/javascript" src="./scripts/app.js"></script>
+        <script type="text/javascript" src="./scripts/controllers.js"></script>
+        <link href="./css/bootstrap.css" rel="stylesheet" media="screen">
+        <link href="./css/bootstrap-responsive.css" rel="stylesheet" media="screen">
+        <link href="./css/styles.css" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <ul class="nav navbar-nav">
+                        <li> 
+                            <a class="navbar-brand" href="#">Codechugga</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <div id="content" ng-view> </div>
+    </body>
+</html>
