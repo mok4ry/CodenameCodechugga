@@ -13,6 +13,21 @@
     margin-left: 0px;   
 }
 
+/* Used to vertically align contents in a fluid container */
+.container-fluid.valign {
+    height:100%;
+    display:table !important;
+    width: 100%;
+    padding: 0;
+    text-align: center;
+}
+
+/* Vertically aligned component in a fluid container */
+.row-fluid.valign {
+    height: 100%; 
+    display:table-cell; 
+    vertical-align: middle;
+
 /**HTML ELEMENTS**/
 body {
     background-color: #edecec;  
@@ -25,12 +40,6 @@ html {
 }
 
 /**CUSTOM**/
-.homediv {
-  position: absolute;
-  top: 50%;
-  border: 1px dashed deeppink;
-}
-
 #content {
     height: 100%;
 }
@@ -42,4 +51,12 @@ html {
     padding: 10px;
     
     border-right: 1px solid #d1d0d0;
+}
+    
+.fullheight {
+    height:100%;   
+}
+
+.title {
+    margin-top: -150px;
 }

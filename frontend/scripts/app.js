@@ -1,4 +1,4 @@
-var questionApp = angular.module('codechugga', ['ngRoute']);
+var questionApp = angular.module('codechugga', ['ngRoute', 'codeChuggaController']);
 
 
 questionApp.config(['$routeProvider', function($routeProvider) {
@@ -6,11 +6,20 @@ questionApp.config(['$routeProvider', function($routeProvider) {
         .when('/', {
             templateUrl : './templates/home.htm'
         })
-        
+              
+        .when('/join', {
+            templateUrl : './templates/join.htm',
+            controller  : 'JoinCtrl'
+        })
+    
+        .when('/create', {
+            templateUrl : './templates/create.htm'
+        })
+              
         .when('/comp', {
             templateUrl : './templates/compPage.htm'  
         })
-    
+              
         .otherwise({
             redirectTo : '/'
         })
