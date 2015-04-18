@@ -119,6 +119,7 @@ router.route('/competitions/:comp_id/challenges/:challenge_id/start')
         Room.findById(req.params.comp_id, function (err, room) {
             Challenge.findById(req.params.challenge_id, function (err, challenge) {
                 room.activeChallenge = challenge;
+                room.running = true;
                 room.save(function (err, r) {
                     room.connected.forEach(function (socketId) {
                         var censoredChallenge = {
@@ -153,7 +154,7 @@ io.on('connection', function(socket){
     console.log("User " + userId + " connected in competition " + roomId);
 
     Room.findById(roomId)
-        .populate('members challenges activeChallenge')
+        .populate('owner members challenges activeChallenge')
         .exec(function(err, room) {
             room.connected.push(socket.id);
             room.save();
@@ -167,7 +168,11 @@ io.on('connection', function(socket){
                 activeChallenge : room.activeChallenge
             };
 
-            if (userId === room.owner) {
+            console.log("userId " + userId);
+            console.log("ownerId " + room.owner._id);
+            console.log(userId === room.owner._id);
+            if (userId === room.owner._id) {
+                console.log("CHALLENGES: " + room.challenges);
                 response.challenges = room.challenges;
             }
 
