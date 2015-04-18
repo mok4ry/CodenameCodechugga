@@ -1,6 +1,6 @@
 var codeChuggaController = angular.module('codeChuggaController', []); 
 
-codeChuggaController.controller('JoinCtrl', ['$scope', '$http', function ($scope, $http) {
+codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     $scope.submit = function() {
         resetForms();
         var roomCode = $scope.joinName;
@@ -12,13 +12,13 @@ codeChuggaController.controller('JoinCtrl', ['$scope', '$http', function ($scope
 
         if(validateForms(roomCode, password, username)) {
             // TODO: ERIC DO STUFF
-            // navigate          
-            alert("Good stuff");
+            // navigate         
+            $location.url('/#');
         }
     }
 }]);
 
-codeChuggaController.controller('CreateCtrl', ['$scope', '$http', function ($scope, $http) {
+codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     $scope.submit = function() {
         resetForms(); 
         var roomCode = $scope.createName;
@@ -31,8 +31,7 @@ codeChuggaController.controller('CreateCtrl', ['$scope', '$http', function ($sco
         if(validateForms(roomCode, password, username)) {
             // TODO: ERIC DO STUFF
             // navigate
-            console.log("ASDF")
-            alert("Good stuff");
+            $location.url('/#');
         }
     }
 }]);
