@@ -169,32 +169,40 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     });
               
     socket.on('correct-answer-submitted', function (data) {
-        var id = data.id;
-        $scope.participants.every(function(x) {
-            if(x.id === id) {
-                x.locked = false;   
-            }
-        });
+        var id = data.userId;
+        var participants = $scope.participants;
+        for(var i = 0; i < participants.length; i++) {
+           if(participants[i].id === id) {
+                participants[i].locked = false;   
+           }
+        }
+        console.log(modService.getUserId() + " " + id);
         if(modService.getUserId() === id) {
             document.getElementById('codeArea').disabled = false;
             document.getElementById('codeArea').style.backgroundColor = '';
             document.getElementById('codeSubmit').disabled = false;
         }
+        console.log("Received 'correct-answer-submitted' with");
+        console.log(data); 
         $scope.$apply();
     });
     
     socket.on('incorrect-answer-submitted', function (data) {
-        var id = data.id;
-        $scope.participants.every(function(x) {
-            if(x.id ===id) {
-                x.locked = true;   
-            }
-        });
+        var id = data.userId;
+        var participants = $scope.participants;
+        for(var i = 0; i < participants.length; i++) {
+           if(participants[i].id === id) {
+                participants[i].locked = true;   
+           }
+        }
+        console.log(modService.getUserId() + " " + id);
         if(modService.getUserId() === id) {
             document.getElementById('codeArea').disabled = true;
             document.getElementById('codeArea').style.backgroundColor = 'red';
             document.getElementById('codeSubmit').disabled = true;
         }
+        console.log("Received 'incorrect-answer-submitted' with");
+        console.log(data); 
         $scope.$apply();
     });
     
