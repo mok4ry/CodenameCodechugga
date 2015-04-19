@@ -199,6 +199,7 @@ body {
     box-shadow: inset 0 0px 2px #6ab289;
     border-radius: 5px;
     padding: 15px;
+    transition: all .5s;
 }
 .green-sea-flat-button:active {
     top: 1px;
@@ -212,12 +213,20 @@ body {
     outline:0;
 }
 
+.green-sea-flat-button:disabled {
+    background: #acc7ba;
+    -webkit-box-shadow: inset 0 0px 2px #7f9589;
+    box-shadow: inset 0 0px 2px #7f9589;
+    border-bottom: 2px solid #7f9589;
+    color: #efefef;
+}
+
 .green-sea-flat-button.questionButton {
     float: right;
     margin-left: 10px;
 }
 
-.green-sea-flat-button.questionButton.red {
+.green-sea-flat-button.red {
     background: #dd8080;
     border-bottom: 2px solid #b26a72;
     -webkit-box-shadow: inset 0 0px 2px #b26a72;
@@ -232,6 +241,7 @@ body {
 
 .questionItem.ng-leave {
     opacity: 1;
+    max-height: 200px;
 }
 
 .questionItem.ng-enter.ng-enter-active {
@@ -241,6 +251,7 @@ body {
 
 .questionItem.ng-leave.ng-leave-active {
     opacity: 0;
+    max-height: 0px;
 }
 
 .questionEditBox.ng-hide {

@@ -104,24 +104,36 @@ router.route('/competitions/:comp_code')
                 res.send(401, { error : "Invalid password for competition " + req.params.comp_code });
             } else {
                 var room = rooms[0];
+                var user;
 
-                var user = new User();
-                user.name = req.body.username;
-                user.score = 0;
-                user.locked = false;
-                user.save();
+                User.find({
+                    name : req.body.username
+                }, function (err, users) {
+                    users.forEach(function (u) {
+                        if (room.members.indexOf(u._id) > -1)
+                            user = u;
+                    });
 
-                room.members.push(user._id);
-                room.save();
+                    if (!user) {
+                        user = new User();
+                        user.name = req.body.username;
+                        user.score = 0;
+                        user.locked = false;
+                        user.save();
+                    }
 
-                Room.populate(room, {
-                    path : 'owner',
-                    model : 'User'
-                }, function (err, r) {
-                    res.send(200, {
-                        userId : user._id,
-                        roomId : r._id,
-                        owner : r.owner
+                    room.members.push(user._id);
+                    room.save();
+
+                    Room.populate(room, {
+                        path : 'owner',
+                        model : 'User'
+                    }, function (err, r) {
+                        res.send(200, {
+                            userId : user._id,
+                            roomId : r._id,
+                            owner : r.owner
+                        });
                     });
                 });
             }

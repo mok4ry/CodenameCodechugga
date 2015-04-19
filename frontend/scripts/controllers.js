@@ -214,7 +214,7 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     });
     
     $scope.newQuestionClicked = function() {
-        $scope.questions.push({'editing' : true});
+        $scope.questions.push({'editing' : true, 'startEnabled' : true});
         console.log($scope.questions)
     }
     
@@ -255,6 +255,12 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
         }
     }
     
+    $scope.cancelButtonClicked = function(question) {
+        question.editing = false;
+        questionIndex = $scope.questions.indexOf(question);
+        $scope.questions.splice(questionIndex, 1);
+    }
+    
     $scope.startButtonClicked = function(question) {
         requestObject = urlService().postRequest;
         requestObject.url = urlService().baseURL + '/api/competitions/' + modService.getRoomId() + '/challenges/' + question.id + '/start';
@@ -263,6 +269,14 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
         $http(requestObject).success(function(data, status, headers, config) {
             console.log('Activated challenge');
             console.log(data)
+            
+            //Disable all start buttons
+            startButtons = document.getElementsByClassName('startButton');
+            for(i = 0; i < $scope.questions.length; i++) {
+                currentQuestion = $scope.questions[i];
+                currentQuestion.startEnabled = false;
+            }
+            
         }).error(function(data, status, headers, config) {
             console.error(data);
         });
