@@ -10,13 +10,14 @@ codeChuggaController.controller('HomeCtrl', ['$scope', '$http', '$location', fun
     }
 }]);
 
-codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'loginService', 'urlService', function ($scope, $http, $location, loginService, urlService) {
+
+codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'modService', 'urlService', function ($scope, $http, $location, modService, urlService) {
     $scope.submit = function() {
         resetForms();
         var roomCode = $scope.joinName;
         var password = $scope.joinPassword;
         var username = $scope.joinUsername;
-        alert("Room Code:" + roomCode +
+        console.log("Room Code:" + roomCode +
             "\nPassword:" + password +
             "\nUsername:" + username);   
 
@@ -32,11 +33,11 @@ codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'lo
             headers: {'Content-Type': 'application/json'}}).
               success(function(data, status, headers, config) {
                 // Propagate to service
-                loginService.setRoomCode(roomCode);
-                loginService.setRoomId(data.roomId);
-                loginService.setUserId(data.userId);
-                loginService.setUsername(username);
-                console.log(loginService.info());
+                modService.setRoomCode(roomCode);
+                modService.setRoomId(data.roomId);
+                modService.setUserId(data.userId);
+                modService.setUsername(username);
+                console.log(modService.info());
                 
                 console.log("Receiving:Data=" + JSON.stringify(data) +
                 "\nStatus=" + status);
@@ -58,7 +59,7 @@ codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', '
         var roomCode = $scope.createName;
         var password = $scope.createPassword;
         var username = $scope.createUsername;
-        alert("Room Code:" + roomCode +
+        console.log("Room Code:" + roomCode +
         "\nPassword:" + password +
         "\nUsername:" + username);   
         
@@ -96,19 +97,69 @@ codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', '
     }
 }]);
 
-
-codeChuggaController.controller('ModCompCtrl', ['$scope', '$http', '$location', 'modService', function ($scope, $http, $location, modService) {
-    // establish socket here
-    
-}]);
-
-codeChuggaController.controller('PartCompCtrl', ['$scope', '$http', '$location', 'loginService', function ($scope, $http, $location, loginService) {
-    // establish socket here
-    
-}]);
-
 codeChuggaController.controller('CompController', ['$scope', '$http', 'modService', 'urlService', 'questionMappingService', function($scope, $http, modService, urlService, questionMappingService) {
-    $scope.questions = [];
+    var socket = io.connect(
+    'http://localhost:8080', 
+    { query:
+        "roomId=" + modService.getRoomId() + 
+        "&userId=" + modService.getUserId() 
+    });
+    
+    // Socket listeners
+    // ================
+    socket.on('connected-to-competition', function (data) {
+        // TODO: Moderator view , all challenges
+        var isModerator = true; // DELETE ME
+        if(isModerator) {
+            $scope.questions = data.challenges;
+        }
+        if(data.running) {
+            $scope.activeQuestion = data.activeChallenge;
+        }
+        $scope.participants = [];
+        for(var i = 0; i < data.members.length; i++) {
+            $scope.participants.push(questionMappingService.JSONtoParticipant(data.members[i]));
+        }
+        console.log($scope.participants);
+        console.log("Received 'connected-to-competition' with");
+        console.log(data);
+        $scope.$apply();
+    });
+    
+    socket.on('new-active-challenge', function (data) {
+        $scope.activeQuestion = data
+        // TODO:
+            // Mod: Highlight the right question
+            // Part: Only display active challenge
+    });
+              
+    socket.on('correct-answer-submitted', function (data) {
+        // TODO: Update view for the userId    
+    });
+    
+    socket.on('incorrect-answer-submitted', function (data) {
+        // TODO: Update view for the userId    
+    });
+    
+//    $scope.participants = [
+//        {
+//            name: "TEST"
+//        },
+//        {
+//            name: "Test2"   
+//        }
+//    ]
+    console.log($scope.participants);
+    
+    $scope.questions = [
+        {
+            'name' : 'Question 1',
+            'description' : 'This is a description',
+            'answer' : 'This is the answer',
+            'editing' : false
+        },
+        
+    ];
     
     $scope.newQuestionClicked = function() {
         $scope.questions.push({'editing' : true});

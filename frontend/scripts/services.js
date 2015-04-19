@@ -1,42 +1,3 @@
-questionApp.service("loginService", function() {
-    var loginInfo = {
-        roomCode: "",
-        roomId: "",
-        userId: "",
-        username: ""
-    };
-    
-    return {
-        info:function() {
-            return loginInfo;
-        },
-        setRoomCode: function(roomCode) {
-            loginInfo.roomCode = roomCode;
-        },
-        getRoomCode: function() {
-            return loginInfo.roomCode;
-        },
-        setRoomId: function(roomId) {
-            loginInfo.roomId = roomId;
-        },
-        getRoomId: function() {
-            return loginInfo.roomId;
-        },
-        setUserId: function(userId) {
-            loginInfo.userId = userId;     
-        },
-        getUserId: function() {
-            return loginInfo.userId;
-        },
-        setUsername: function(username) {
-            loginInfo.username = username;     
-        },
-        getUsername: function() {
-            return loginInfo.username;
-        }
-    };
-});
-
 questionApp.service("modService", function() {
     var modInfo = {
         roomCode: "",
@@ -102,6 +63,12 @@ questionApp.service('questionMappingService', function() {
                 'name' : question.name,
                 'text' : question.description,
                 'answer' : question.answer
+            };
+        },
+        'JSONtoParticipant' : function(participant) {
+            return {
+                name: participant.name,
+                id: participant._id
             };
         }
     };
