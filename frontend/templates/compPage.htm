@@ -29,13 +29,13 @@
                         
                         <div class="questionItem" ng-repeat="question in questions">
                             
-                            <div class="questionInfoBox" ng-show="!question.editing">
+                            <div class="questionInfoBox" ng-show="!question.editing || !question.newQuestion">
                                 <span class="questionTitle">{{question.name}}</span>
                                 <button class="green-sea-flat-button questionButton red" style="float: right" ng-click="editButtonClicked(question)">Edit</button>
                                 <button class="green-sea-flat-button questionButton" style="float: right">Start</button>
                             </div>
                             
-                            <div class="questionEditBox" ng-show="question.editing" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">
+                            <div class="questionEditBox" ng-show="question.editing || question.newQuestion" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">
                                 <input type="text" placeholder="Title" ng-model="question.name"/><br />
                                 <textarea placeholder="Description" ng-model="question.description"></textarea><br />
                                 <textarea placeholder="Answer" ng-model="question.answer"></textarea><br />

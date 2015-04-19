@@ -107,7 +107,7 @@ codeChuggaController.controller('PartCompCtrl', ['$scope', '$http', '$location',
     
 }]);
 
-codeChuggaController.controller('CompController', ['$scope', function($scope) {
+codeChuggaController.controller('CompController', ['$scope', '$http', 'modService', function($scope, $http, modService) {
     $scope.questions = [
         {
             'name' : 'Question 1',
@@ -119,7 +119,7 @@ codeChuggaController.controller('CompController', ['$scope', function($scope) {
     ];
     
     $scope.newQuestionClicked = function() {
-        $scope.questions.push({'editing' : true});
+        $scope.questions.push({'newQuestion' : true});
     }
     
     $scope.editButtonClicked = function(question) {
@@ -128,7 +128,11 @@ codeChuggaController.controller('CompController', ['$scope', function($scope) {
     }
     
     $scope.saveButtonClicked = function(question) {
+        //HTTP request
+        console.log(modService.getRoomId());
+        
         question.editing = false;
+        question.newQuestion = false;
         
         questionIndex = $scope.questions.indexOf(question);
         $scope.questions[questionIndex] = question;
