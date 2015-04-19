@@ -4,7 +4,8 @@ var questionApp = angular.module('codechugga', ['ngRoute', 'codeChuggaController
 questionApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .when('/', {
-            templateUrl : './templates/home.htm'
+            templateUrl : './templates/home.htm',
+            controller  : 'HomeCtrl'
         })
               
         .when('/join', {

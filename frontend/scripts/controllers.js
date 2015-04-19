@@ -1,5 +1,15 @@
 var codeChuggaController = angular.module('codeChuggaController', []); 
 
+codeChuggaController.controller('HomeCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+    $scope.join = function() {
+        $location.url('/join');
+    }
+    
+    $scope.create = function() {
+        $location.url('/create');
+    }
+}]);
+
 codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     $scope.submit = function() {
         resetForms();
