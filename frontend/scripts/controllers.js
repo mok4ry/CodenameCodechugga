@@ -148,8 +148,12 @@ codeChuggaController.controller('CompController', ['$scope', '$http', 'modServic
         // TODO: Update view for the userId    
     });
     
-    socket.on('incorrect-answer-submitted', function (data) {
-        // TODO: Update view for the userId    
+    socket.on('user-disconnected', function (data) {
+        var id = data.userId;
+        $scope.participants = $scope.participants.filter( function(x) { return (x.id != id) } );
+        console.log("Received 'user-disconnected' with");
+        console.log(data);
+        $scope.$apply();  
     });
     
     $scope.questions = [
