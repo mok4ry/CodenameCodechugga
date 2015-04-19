@@ -1,4 +1,4 @@
-var codeChuggaController = angular.module('codeChuggaController', []); 
+var codeChuggaController = angular.module('codeChuggaController', ['ngAnimate']); 
 
 codeChuggaController.controller('HomeCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     $scope.join = function() {
@@ -46,25 +46,16 @@ codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', f
     }
 }]);
 
-function validateForms(room, pass, user) {
-    var success = true;
-    if(!room) {
-        success = false;
-        document.getElementById('roomname').style.borderColor = "red";
+codeChuggaController.controller('CompController', ['$scope', function($scope) {
+    $scope.questions = [
+        {
+            'name' : 'Question 1',
+            'description' : 'This is a description',
+            'answer' : 'answer',
+        },
+        
+    ];
+    $scope.newQuestionClicked = function() {
+        $scope.questions.push({});
     }
-    if(!pass) {
-        success = false;
-        document.getElementById('password').style.borderColor = "red";
-    }
-    if(!user) {
-        success = false;
-        document.getElementById('username').style.borderColor = "red";
-    }
-    return success;
-}
-
-function resetForms() {
-    document.getElementById('roomname').style.borderColor = "";
-    document.getElementById('password').style.borderColor = "";
-    document.getElementById('username').style.borderColor = "";
-}        
+}]);
