@@ -34,6 +34,10 @@
             socket.on('user-disconnected', function (info) {
                 console.log(info);
             });
+
+            socket.on('user-unlocked', function (info) {
+                console.log(info);
+            });
         </script>
     </head>
     <body>
