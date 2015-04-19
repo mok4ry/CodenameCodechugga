@@ -26,18 +26,7 @@
                             <h3 class="cardSectionHeadingTitle">Questions</h3>
                             <button class="green-sea-flat-button questionButton" style="float:right" ng-click="newQuestionClicked()">New Question</button>
                         </div>
-<!--
-                        <div class="questionItem">
-                            <span class="questionTitle">Question 1</span>
-                            <button class="green-sea-flat-button questionButton red" style="float: right">Edit</button>
-                            <button class="green-sea-flat-button questionButton" style="float: right">Start</button>
-                        </div>
-                        <div class="questionItem">
-                            <span class="questionTitle">Question 2</span>
-                            <button class="green-sea-flat-button questionButton red" style="float: right">Edit</button>
-                            <button class="green-sea-flat-button questionButton" style="float: right">Start</button>
-                        </div>
--->
+                        
                         <div class="questionItem" ng-repeat="question in questions">
                             
                             <div class="questionInfoBox" ng-show="!question.editing">
