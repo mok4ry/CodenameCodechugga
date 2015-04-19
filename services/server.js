@@ -110,10 +110,16 @@ router.route('/competitions/:comp_code')
                 user.save();
 
                 room.members.push(user._id);
-                room.save(function (err, r) {
+                room.save();
+
+                Room.populate(room, {
+                    path : 'owner',
+                    model : 'User'
+                }, function (err, r) {
                     res.send(200, {
                         userId : user._id,
-                        roomId : r._id
+                        roomId : r._id,
+                        owner : r.owner
                     });
                 });
             }
