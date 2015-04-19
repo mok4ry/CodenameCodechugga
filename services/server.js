@@ -232,8 +232,14 @@ io.on('connection', function(socket){
     Room.findById(roomId)
         .populate('owner members challenges activeChallenge')
         .exec(function(err, room) {
-            room.connected.push(socket.id);
-            room.save();
+            User.findById(userId, function (err, user) {
+                room.connected.forEach(function (socketId) {
+                    if (clients[socketId])
+                        clients[socketId].emit('user-connected', user);
+                });
+                room.connected.push(socket.id);
+                room.save();
+            });
 
             var response = {
                 name : room.name,
@@ -256,7 +262,14 @@ io.on('connection', function(socket){
         Room.findById(roomId, function(err, room) {
             var index = room.connected.indexOf(socket.id);
             if (index > -1) room.connected.splice(index, 1);
-            room.save();
+            room.save(function (err, r) {
+                r.connected.forEach(function (socketId) {
+                    if (clients[socketId])
+                        clients[socketId].emit('user-disconnected', {
+                            userId : userId
+                        });
+                });
+            });
         });
     });
 

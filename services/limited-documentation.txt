@@ -154,3 +154,17 @@ Client-side socket messages
     "text":"Updated Text",
     "answer":"Updated Answer"
 }
+
+
+'user-connected'
+{
+    "_id":"553316627519b6ba0c000001",
+    "score":0,
+    "name":"Matt"
+}
+
+
+'user-disconnected'
+{
+    "userId":"553316627519b6ba0c000001"
+}
