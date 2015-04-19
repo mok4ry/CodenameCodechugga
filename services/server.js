@@ -50,6 +50,16 @@ var allowCrossDomain = function(req, res, next) {
     next();
 }
 
+var getScoreStructure = function (numContestants) {
+    var payouts = [100, 80, 60, 40, 30, 20, 15, 10, 5]
+    var spotsPaid = Math.ceil(numContestants / 3) + 1;
+    var scores = [];
+    for (var i = 0; i < spotsPaid && i < payouts.length; i++) {
+        scores.push(payouts[i]);
+    }
+    return scores;
+};
+
 router.use(allowCrossDomain);
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
@@ -61,7 +71,7 @@ router.route('/competitions')
     .post(function (req, res) {
         var user = new User();
         user.name = req.body.username;
-        user.challenges = [];
+        user.score = 0;
         user.save();
 
         var room = new Room();
@@ -96,7 +106,7 @@ router.route('/competitions/:comp_code')
 
                 var user = new User();
                 user.name = req.body.username;
-                user.challenges = [];
+                user.score = 0;
                 user.save();
 
                 room.members.push(user._id);
@@ -117,6 +127,8 @@ router.route('/competitions/:comp_id/challenges')
             challenge.name = req.body.name;
             challenge.text = req.body.text;
             challenge.answer = req.body.answer;
+            challenge.scores = [];
+            challenge.solved = 0;
             challenge.save(function (err, ch) {
                 room.challenges.push(challenge);
                 room.save();
@@ -151,6 +163,10 @@ router.route('/competitions/:comp_id/challenges/:challenge_id/start')
     .put(function (req, res) {
         Room.findById(req.params.comp_id, function (err, room) {
             Challenge.findById(req.params.challenge_id, function (err, challenge) {
+                var contestants = room.connected.length - 1; // - 1 for moderator
+                challenge.scores = getScoreStructure(contestants);
+                challenge.save();
+
                 room.activeChallenge = challenge;
                 room.running = true;
                 room.save(function (err, r) {
@@ -178,12 +194,30 @@ router.route('/competitions/:comp_id/challenges/:challenge_id/submit')
                 try {
                     vm.runInContext(req.body.code, sandbox, { timeout : 2000 });
                     if (sandbox.answer == challenge.answer) {
-                        room.connected.forEach(function (socketId) {
-                            if (clients[socketId])
-                                clients[socketId].emit('correct-answer-submitted', {
-                                    userId : req.body.userId,
-                                    challengeId : req.params.challenge_id
-                                });
+                        User.findById(req.body.userId, function (err, user) {
+                            var points = challenge.scores[challenge.solved];
+                            console.log("Points: " + points);
+                            var updatedScore = user.score + points;
+                            user.score = updatedScore;
+                            user.save();
+
+                            challenge.solved += 1;
+                            challenge.save();
+
+                            room.connected.forEach(function (socketId) {
+                                if (clients[socketId]) {
+                                    clients[socketId].emit('correct-answer-submitted', {
+                                        userId : req.body.userId,
+                                        score : updatedScore,
+                                        challengeId : req.params.challenge_id
+                                    });
+                                    if (challenge.solved === challenge.scores.length) {
+                                        clients[socketId].emit('challenge-over', {
+                                            challengeId : req.params.challenge_id
+                                        });
+                                    }
+                                }
+                            });
                         });
                     } else {
                         room.connected.forEach(function (socketId) {
