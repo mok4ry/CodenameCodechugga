@@ -135,6 +135,14 @@ router.route('/competitions/:comp_id/challenges/:challenge_id')
         Challenge.update({
             _id : req.params.challenge_id
         }, updates, function (err, numAffected) {
+            Room.findById(req.params.comp_id, function (err, room) {
+                if (room.activeChallenge == req.params.challenge_id) {
+                    console.log("Active challenge updated!");
+                    room.connected.forEach(function (socketId) {
+                        if (clients[socketId]) clients[socketId].emit('active-challenge-updated', updates);
+                    });
+                }
+            });
             res.send(200);
         });
     });
@@ -152,7 +160,8 @@ router.route('/competitions/:comp_id/challenges/:challenge_id/start')
                             name : challenge.name,
                             text : challenge.text
                         };
-                        clients[socketId].emit('new-active-challenge', censoredChallenge);
+                        if (clients[socketId])
+                            clients[socketId].emit('new-active-challenge', censoredChallenge);
                     });
                     res.send(200, challenge);
                 });
@@ -170,27 +179,30 @@ router.route('/competitions/:comp_id/challenges/:challenge_id/submit')
                     vm.runInContext(req.body.code, sandbox, { timeout : 2000 });
                     if (sandbox.answer == challenge.answer) {
                         room.connected.forEach(function (socketId) {
-                            clients[socketId].emit('correct-answer-submitted', {
-                                userId : req.body.userId,
-                                challengeId : req.params.challenge_id
-                            });
+                            if (clients[socketId])
+                                clients[socketId].emit('correct-answer-submitted', {
+                                    userId : req.body.userId,
+                                    challengeId : req.params.challenge_id
+                                });
                         });
                     } else {
                         room.connected.forEach(function (socketId) {
-                            clients[socketId].emit('incorrect-answer-submitted', {
-                                userId : req.body.userId,
-                                challengeId : req.params.challenge_id
-                            });
+                            if (clients[socketId])
+                                clients[socketId].emit('incorrect-answer-submitted', {
+                                    userId : req.body.userId,
+                                    challengeId : req.params.challenge_id
+                                });
                         });
                     }
                 } catch (e) {
                     console.log(room.connected);
                     console.log(clients);
                     room.connected.forEach(function (socketId) {
-                        clients[socketId].emit('incorrect-answer-submitted', {
-                            userId : req.body.userId,
-                            challengeId : req.params.challenge_id
-                        });
+                        if (clients[socketId])
+                            clients[socketId].emit('incorrect-answer-submitted', {
+                                userId : req.body.userId,
+                                challengeId : req.params.challenge_id
+                            });
                     });
                 }
                 res.send(200);
@@ -233,7 +245,6 @@ io.on('connection', function(socket){
             };
 
             if (userId == room.owner._id) {
-                console.log("CHALLENGES: " + room.challenges);
                 response.challenges = room.challenges;
             }
 
