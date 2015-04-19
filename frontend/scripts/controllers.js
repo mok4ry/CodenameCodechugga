@@ -117,7 +117,7 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     };
     
     var socket = io.connect(
-    '129.21.120.96:8080', 
+    '129.21.121.32:8080', 
     { query:
         "roomId=" + modService.getRoomId() + 
         "&userId=" + modService.getUserId() 
