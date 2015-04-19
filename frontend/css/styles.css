@@ -132,7 +132,7 @@ body {
     padding-top: 10px;
     
     border-bottom: 1px solid #eae8e8;
-    margin-bottom: 10px;
+/*    margin-bottom: 10px;*/
 }
 
 .cardHeader h1, h2, h3, h4, h5, h6 {
@@ -145,6 +145,13 @@ body {
     border-bottom: 1px solid #eae8e8;
 }
 
+.cardSectionHeadingTitle {
+    max-width: 50%;
+    margin: 0px;
+    font-size: 24px;
+    display: inline;
+}
+
 .questionItem {
     border-bottom: 1px solid #eae8e8; 
     padding: 20px;
@@ -155,6 +162,11 @@ body {
     position: relative;
     top: 50%;
     line-height: 50px;
+}
+
+.plusButton {
+    float: right;
+    font-size: 24px;
 }
 
 /* #Green Sea Flat Button
