@@ -20,7 +20,7 @@ questionApp.config(['$routeProvider', function($routeProvider) {
               
         .when('/comp', {
             templateUrl : './templates/compPage.htm',
-            controller  : 'CompCtrl'
+            controller  : 'CompController'
         })
               
         .otherwise({

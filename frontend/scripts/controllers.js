@@ -107,7 +107,7 @@ codeChuggaController.controller('PartCompCtrl', ['$scope', '$http', '$location',
     
 }]);
 
-codeChuggaController.controller('CompCtlr', ['$scope', function($scope) {
+codeChuggaController.controller('CompController', ['$scope', function($scope) {
     $scope.questions = [
         {
             'name' : 'Question 1',
