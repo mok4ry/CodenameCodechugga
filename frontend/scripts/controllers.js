@@ -231,4 +231,17 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
             });
         }
     }
+    
+    $scope.startButtonClicked = function(question) {
+        requestObject = urlService().postRequest;
+        requestObject.url = urlService().baseURL + '/api/competitions/' + modService.getRoomId() + '/challenges/' + question.id + '/start';
+        requestObject.method = 'PUT';
+        
+        $http(requestObject).success(function(data, status, headers, config) {
+            console.log('Activated challenge');
+            console.log(data)
+        }).error(function(data, status, headers, config) {
+            console.error(data);
+        });
+    }
 }]);

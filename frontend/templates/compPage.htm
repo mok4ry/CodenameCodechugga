@@ -33,7 +33,7 @@
                             <div class="questionInfoBox" ng-show="!question.editing">
                                 <span class="questionTitle">{{question.name}}</span>
                                 <button class="green-sea-flat-button questionButton red" style="float: right" ng-click="editButtonClicked(question)">Edit</button>
-                                <button class="green-sea-flat-button questionButton" style="float: right">Start</button>
+                                <button class="green-sea-flat-button questionButton" style="float: right" ng-click="startButtonClicked(question)">Start</button>
                             </div>
                             
                             <div class="questionEditBox" ng-show="question.editing" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">
