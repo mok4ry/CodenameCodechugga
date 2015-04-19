@@ -33,8 +33,9 @@ codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'mo
               success(function(data, status, headers, config) {
                 console.log(data);
                 // Propagate to service
-                modService.setRoomCode(roomCode);
+                modService.setRoomCode(data.code);
                 modService.setRoomId(data.roomId);
+                modService.setRoomName(data.name);
                 modService.setUserId(data.userId);
                 modService.setUsername(username);
                 modService.setIsOwner(data.owner._id)
@@ -76,8 +77,9 @@ codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', '
             headers: {'Content-Type': 'application/json'}}).
               success(function(data, status, headers, config) {
                 // Propagate to service
-                modService.setRoomCode(roomCode);
+                modService.setRoomCode(data.code);
                 modService.setRoomId(data._id);
+                modService.setRoomName(data.name);
                 modService.setRoomPassword(password);
                 modService.setUserId(data.owner._id);
                 modService.setUsername(username);
@@ -108,6 +110,7 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     $scope.questions = [];
     $scope.isOwner = modService.getIsOwner();
     $scope.lockInterface = false;
+    $scope.title = modService.getRoomName() + " " + modService.getRoomCode();
     
     var socket = io.connect(
     'http://localhost:8080', 
@@ -119,9 +122,7 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     // Socket listeners
     // ================
     socket.on('connected-to-competition', function (data) {
-        // TODO: Moderator view , all challenges
-        var isModerator = true; // DELETE ME
-        if(isModerator) {
+        if($scope.isOwner) {
             $scope.questions = data.challenges;
         }
         if(data.running) {
@@ -138,10 +139,13 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     });
     
     socket.on('new-active-challenge', function (data) {
-        $scope.activeQuestion = questionMappingService.JSONtoQuestion(data);
-        // TODO:
-            // Mod: Highlight the right question
-            // Part: Only display active challenge
+        var quest = questionMappingService.JSONtoQuestion(data);
+        if($scope.isOwner) {
+            // No-op
+        } else {
+            $scope.questions = [];
+            $scope.questions.push(quest);
+        }
         
         console.log("Received 'new-active-challenge' with");
         console.log(data);
@@ -149,6 +153,15 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     });
     
     socket.on('active-challenge-updated', function (data) {
+        if($scope.isOwner) {
+            // No-op
+        } else {
+            var quest = questionMappingService.JSONtoQuestion(data);
+            var target = $scope.questions[0];
+            target.description = (quest.description) ? quest.description : target.description;
+            target.name = (quest.name) ? quest.name : target.name;
+            target.answer = (quest.answer) ? quest.answer : target.answer;
+        }
         console.log("Received 'active-challenge-updated' with");
         console.log(data); 
         $scope.$apply();

@@ -1,6 +1,7 @@
 questionApp.service("modService", function() {
     var modInfo = {
         roomCode: "",
+        roomName: "",
         roomId: "",
         roomPassword: "",
         userId: "",
@@ -23,6 +24,12 @@ questionApp.service("modService", function() {
         },
         getRoomId: function() {
             return modInfo.roomId;
+        },
+        setRoomName: function(name) {
+            modInfo.roomName = name;
+        },
+        getRoomName: function() {
+            return modInfo.roomName;  
         },
         setRoomPassword: function(roomPassword) {
             modInfo.roomPassword = roomPassword;
@@ -83,7 +90,7 @@ questionApp.service('questionMappingService', function() {
         'JSONtoQuestion' : function(question) {
             return {
                 name: question.name,
-                descritpion: question.text,
+                description: question.text,
                 answer: question.answer,
                 id: question._id,
                 editing: true,
