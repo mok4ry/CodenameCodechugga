@@ -18,7 +18,7 @@
             <div class="row-fluid">
                 <div class="span12 card" style="margin-top: 30px;">
                     <div class="cardHeader">
-                        <h3>Competition Title</h4>
+                        <h3 ng-model="title">{{title}}</h4>
                     </div>
                     
                     <!--Mod HTML -->
@@ -49,18 +49,15 @@
                     <!-- Participant HTML -->
                     <div class="questionContainer" ng-show="!isOwner">
                         <div class="questionItem">
-                            <div ng-show="questions.length > 0">
-                                <h3 class="questionTitle">Question Name:</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-
+                            <div ng-repeat="question in questions">
+                                <h3 class="questionTitle">{{question.name}}</h3>
+                                <p>{{question.description}}</p>
                                 <textarea placeholder="Put Code Here :)" style="width: 95%; height: 200px"></textarea><br />
                                 <button class="green-sea-flat-button">Submit</button>
                             </div>
                             <div ng-show="questions.length == 0">
                                 <h3>Nothing to see here!</h3>
                             </div>
-                            <textarea id="codeArea" placeholder="Put Code Here :)" style="width: 95%; height: 200px"></textarea><br />
-                            <button id="codeSubmit" class="green-sea-flat-button">Submit</button>
                         </div>
                     </div>
                 </div>
