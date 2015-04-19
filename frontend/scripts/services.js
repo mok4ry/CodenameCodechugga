@@ -68,8 +68,27 @@ questionApp.service('questionMappingService', function() {
         'JSONtoParticipant' : function(participant) {
             return {
                 name: participant.name,
-                id: participant._id
+                id: participant._id,
+                score: participant.score
             };
         }
     };
 });
+
+//questionApp.service('socket', function() {
+//    var socket = null;
+//    return {
+//        init: function(url, query) {
+//           socket = io.connect(url, query);
+//            console.log("HERE");
+//        },
+//        on: function(eventName, callback) {
+//            socket.on(eventName, function () {  
+//                var args = arguments;
+//                $scope.$apply(function () {
+//                    callback.apply(socket, args);
+//                });
+//            });   
+//        }
+//    };
+//});

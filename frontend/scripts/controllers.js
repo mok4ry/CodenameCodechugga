@@ -137,19 +137,20 @@ codeChuggaController.controller('CompController', ['$scope', '$http', 'modServic
         // TODO: Update view for the userId    
     });
     
+    socket.on('user-connected', function (data) {
+        $scope.participants.push(questionMappingService.JSONtoParticipant(data));
+        console.log("Received 'user-connected' with");
+        console.log(data);
+        $scope.$apply();
+    });
+    
     socket.on('incorrect-answer-submitted', function (data) {
         // TODO: Update view for the userId    
     });
     
-//    $scope.participants = [
-//        {
-//            name: "TEST"
-//        },
-//        {
-//            name: "Test2"   
-//        }
-//    ]
-    console.log($scope.participants);
+    socket.on('incorrect-answer-submitted', function (data) {
+        // TODO: Update view for the userId    
+    });
     
     $scope.questions = [
         {
