@@ -10,7 +10,7 @@ codeChuggaController.controller('HomeCtrl', ['$scope', '$http', '$location', fun
     }
 }]);
 
-codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'loginService', function ($scope, $http, $location, loginService) {
     $scope.submit = function() {
         resetForms();
         var roomCode = $scope.joinName;
@@ -21,14 +21,38 @@ codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', fun
             "\nUsername:" + username);   
 
         if(validateForms(roomCode, password, username)) {
-            // TODO: ERIC DO STUFF
-            // navigate         
-            $location.url('/#');
+            var data = {
+                password: password,   
+                username: username
+            };
+            alert("Sending\n" + JSON.stringify(data));
+            $http({url: "http://localhost:8080/api/competitions/" + roomCode,
+            method: "PUT",
+            data: JSON.stringify(data),
+            headers: {'Content-Type': 'application/json'}}).
+              success(function(data, status, headers, config) {
+                // Propagate to service
+                loginService.setRoomCode(roomCode);
+                loginService.setRoomId(data.roomId);
+                loginService.setUserId(data.userId);
+                loginService.setUsername(username);
+                console.log(loginService.info());
+                
+                alert("Receiving:Data=" + JSON.stringify(data) +
+                "\nStatus=" + status);
+
+                $location.url('/comp');
+              }).
+              error(function(data, status, headers, config) {
+                // TODO: More sophisticated error messsage
+                alert("Data=" + JSON.stringify(data) +
+                     "\nStatus=" + status);
+              });
         }
     }
 }]);
 
-codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', 'modService', function ($scope, $http, $location, modService) {
     $scope.submit = function() {
         resetForms(); 
         var roomCode = $scope.createName;
@@ -39,11 +63,47 @@ codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', f
         "\nUsername:" + username);   
         
         if(validateForms(roomCode, password, username)) {
-            // TODO: ERIC DO STUFF
-            // navigate
-            $location.url('/#');
+            var data = {
+                username: username,
+                roomName: roomCode,
+                roomPassword: password   
+            };
+            alert("Sending\n" + JSON.stringify(data));
+            $http({url: "http://localhost:8080/api/competitions",
+            method: "POST",
+            data: JSON.stringify(data),
+            headers: {'Content-Type': 'application/json'}}).
+              success(function(data, status, headers, config) {
+                // Propagate to service
+                modService.setRoomCode(roomCode);
+                modService.setRoomId(data._id);
+                modService.setRoomPassword(password);
+                modService.setUserId(data.owner._id);
+                modService.setUsername(username);
+                console.log(modService.info());
+                
+                alert("Data=" + JSON.stringify(data) +
+                "\nStatus=" + status);
+
+                $location.url('/comp');
+              }).
+              error(function(data, status, headers, config) {
+                // TODO: More sophisticated error messsage
+                alert("Data=" + JSON.stringify(data) +
+                     "\nStatus=" + status);
+              });
         }
     }
+}]);
+
+codeChuggaController.controller('ModCompCtrl', ['$scope', '$http', '$location', 'modService', function ($scope, $http, $location, modService) {
+    // establish socket here
+    
+}]);
+
+codeChuggaController.controller('PartCompCtrl', ['$scope', '$http', '$location', 'loginService', function ($scope, $http, $location, loginService) {
+    // establish socket here
+    
 }]);
 
 function validateForms(room, pass, user) {

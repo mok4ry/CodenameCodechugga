@@ -19,7 +19,8 @@ questionApp.config(['$routeProvider', function($routeProvider) {
         })
               
         .when('/comp', {
-            templateUrl : './templates/compPage.htm'  
+            templateUrl : './templates/compPage.htm',
+            controler   : 'CompCtrl'
         })
               
         .otherwise({
