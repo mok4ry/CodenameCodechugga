@@ -79,6 +79,14 @@ questionApp.service('questionMappingService', function() {
                 score: participant.score,
                 locked: participant.locked
             };
+        },
+        'JSONtoQuestion' : function(question) {
+            return {
+                name: question.name,
+                descritpion: question.text,
+                answer: question.answer,
+                id: question._id
+            };
         }
     };
 });
