@@ -125,7 +125,6 @@ codeChuggaController.controller('CompController', ['$scope', '$http', 'modServic
         
         //Create new question otherwise update
         if(!question.id) {
-            console.log('POSTING');
             requestObject.url = urlService().baseURL + '/api/competitions/' + modService.getRoomId() + '/challenges';
             requestObject.data = questionMappingService.getJSON(question);
 
@@ -141,7 +140,6 @@ codeChuggaController.controller('CompController', ['$scope', '$http', 'modServic
             });
         }
         else {
-            console.log('PUTTING')
             requestObject.url = urlService().baseURL + '/api/competitions/' + modService.getRoomId() + '/challenges/' + question.id;
             requestObject.method = 'PUT';
             requestObject.data = questionMappingService.getJSON(question);
