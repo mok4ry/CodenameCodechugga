@@ -10,7 +10,7 @@
             <div class="participantItem" ng-repeat="participant in participants">
                 <div class="participantScore">{{participant.score}}</div>
                 <div class="participantTitle">{{participant.name}}</div>
-                <div class="participantStatus">{{participant.locked}}</div>
+                <div class="participantStatus" ng-style="{'background-color': participant.status}"></div>
             </div>
         </div>
         

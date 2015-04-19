@@ -84,7 +84,8 @@ questionApp.service('questionMappingService', function() {
                 name: participant.name,
                 id: participant._id,
                 score: participant.score,
-                locked: participant.locked
+                locked: participant.locked,
+                status: '#5abc7d'
             };
         },
         'JSONtoQuestion' : function(question) {

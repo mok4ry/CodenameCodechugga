@@ -188,7 +188,8 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
         var participants = $scope.participants;
         for(var i = 0; i < participants.length; i++) {
            if(participants[i].id === id) {
-                participants[i].locked = true;   
+                participants[i].locked = true;
+                participants[i].status = '#bc6068';
            }
         }
         if(modService.getUserId() == id) {

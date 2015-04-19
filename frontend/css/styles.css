@@ -113,7 +113,7 @@ body {
     transform: translateY(-50%);
     width: 20px;
     height: 20px;
-    background-color: #5abc7d;
+/*    background-color: #5abc7d;*/
     border-radius: 10px;
     float: right;
 }
