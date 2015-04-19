@@ -118,9 +118,7 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     // Socket listeners
     // ================
     socket.on('connected-to-competition', function (data) {
-        // TODO: Moderator view , all challenges
-        var isModerator = true; // DELETE ME
-        if(isModerator) {
+        if($scope.isOwner) {
             $scope.questions = data.challenges;
         }
         if(data.running) {
@@ -137,10 +135,13 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     });
     
     socket.on('new-active-challenge', function (data) {
-        $scope.activeQuestion = questionMappingService.JSONtoQuestion(data);
-        // TODO:
-            // Mod: Highlight the right question
-            // Part: Only display active challenge
+        var quest = questionMappingService.JSONtoQuestion(data);
+        if($scope.isOwner) {
+            // No-op
+        } else {
+            $scope.questions = [];
+            $scope.questions.push(quest);
+        }
         
         console.log("Received 'new-active-challenge' with");
         console.log(data);
@@ -148,6 +149,18 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     });
     
     socket.on('active-challenge-updated', function (data) {
+        if($scope.isOwner) {
+            // No-op
+        } else {
+            var quest = questionMappingService.JSONtoQuestion(data);
+            $scope.questions.forEach(function(x) {
+                if(x.id === quest.id) {
+                    x.description = (quest.description) ? quest.description : x.description;
+                    x.name = (quest.name) ? quest.name : x.name;
+                    x.answer = (quest.answer) ? quest.answer : x.naanswerme;
+                }
+            });
+        }
         console.log("Received 'active-challenge-updated' with");
         console.log(data); 
         $scope.$apply();
