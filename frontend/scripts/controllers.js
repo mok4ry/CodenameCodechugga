@@ -97,8 +97,13 @@ codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', '
         }
     }
 }]);
-
-codeChuggaController.controller('CompController', ['$scope', '$http', 'modService', 'urlService', 'questionMappingService', function($scope, $http, modService, urlService, questionMappingService) {
+    
+codeChuggaController.controller('CompController', ['$scope', '$http', '$location', 'modService', 'urlService', 'questionMappingService', function($scope, $http, $location, modService, urlService, questionMappingService) {
+    if(!modService.getRoomId()) {
+        alert("Re-login!");
+        $location.url("/#");
+        return;
+    }
     
     $scope.questions = [];
     $scope.isOwner = modService.getIsOwner();
@@ -139,7 +144,29 @@ codeChuggaController.controller('CompController', ['$scope', '$http', 'modServic
     });
               
     socket.on('correct-answer-submitted', function (data) {
-        // TODO: Update view for the userId    
+        var id = data.id;
+        $scope.participants.every(function(x) {
+            if(x.id === id) {
+                x.locked = false;   
+            }
+        });
+        if(modService.getUserId() === id) {
+            // TODO: UNLOCK MYSELF, IF ID IS ME
+        }
+        $scope.$apply();
+    });
+    
+    socket.on('incorrect-answer-submitted', function (data) {
+        var id = data.id;
+        $scope.participants.every(function(x) {
+            if(x.id ===id) {
+                x.locked = true;   
+            }
+        });
+        if(modService.getUserId() === id) {
+            // TODO: LOCK MYSELF, IF ID IS ME
+        }
+        $scope.$apply();
     });
     
     socket.on('user-connected', function (data) {
@@ -149,12 +176,13 @@ codeChuggaController.controller('CompController', ['$scope', '$http', 'modServic
         $scope.$apply();
     });
     
-    socket.on('incorrect-answer-submitted', function (data) {
-        // TODO: Update view for the userId    
-    });
     
-    socket.on('incorrect-answer-submitted', function (data) {
-        // TODO: Update view for the userId    
+    socket.on('user-disconnected', function (data) {
+        var id = data.userId;
+        $scope.participants = $scope.participants.filter( function(x) { return (x.id != id) } );
+        console.log("Received 'user-disconnected' with");
+        console.log(data);
+        $scope.$apply();  
     });
     
     $scope.newQuestionClicked = function() {
