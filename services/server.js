@@ -168,10 +168,7 @@ io.on('connection', function(socket){
                 activeChallenge : room.activeChallenge
             };
 
-            console.log("userId " + userId);
-            console.log("ownerId " + room.owner._id);
-            console.log(userId === room.owner._id);
-            if (userId === room.owner._id) {
+            if (userId == room.owner._id) {
                 console.log("CHALLENGES: " + room.challenges);
                 response.challenges = room.challenges;
             }
