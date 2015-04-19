@@ -37,6 +37,7 @@ codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'mo
                 modService.setRoomId(data.roomId);
                 modService.setRoomName(data.owner.name);
                 modService.setUsername(username);
+                modService.setUserId(data.userId);
                 modService.setIsOwner(data.owner._id)
                 
                 console.log("Receiving:Data=" + JSON.stringify(data) +
@@ -110,7 +111,6 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     $scope.isOwner = modService.getIsOwner();
     $scope.lockInterface = false;
     $scope.title = ($scope.isOwner) ? modService.getRoomName() + " - " + modService.getRoomCode() : modService.getRoomCode() ;
-    $scope.title = modService.getRoomName() + " " + modService.getRoomCode();
     $scope.codeValue = {
         value : ''
     };

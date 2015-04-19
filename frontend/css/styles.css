@@ -14,11 +14,15 @@
 }
 
 .custom {
-    line-height: 40px;   
+    line-height: 45px;   
 }
 
 .row {
     margin-left: 0px;   
+}
+
+.row-fluid .pad {
+    padding: 20px;   
 }
 
 /* Used to vertically align contents in a fluid container */
@@ -60,7 +64,7 @@ body {
 /**CUSTOM**/
 .bigTitle {
     color: #78d09d;
-    font-size: 2.2em;
+    font-size: 1.5em;
 }
 
 .homediv {
