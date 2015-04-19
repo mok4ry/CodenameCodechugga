@@ -9,6 +9,14 @@
     /*margin-bottom: 0px;*/
 }
 
+.navbar-brand {
+    font-size: 1.5em;
+}
+
+.custom {
+    line-height: 40px;   
+}
+
 .row {
     margin-left: 0px;   
 }
@@ -50,6 +58,11 @@ body {
 }
 
 /**CUSTOM**/
+.bigTitle {
+    color: #78d09d;
+    font-size: 2.2em;
+}
+
 .homediv {
   position: absolute;
   top: 50%;

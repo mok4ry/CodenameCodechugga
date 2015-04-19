@@ -33,10 +33,9 @@ codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'mo
               success(function(data, status, headers, config) {
                 console.log(data);
                 // Propagate to service
-                modService.setRoomCode(data.code);
+                modService.setRoomCode(roomCode);
                 modService.setRoomId(data.roomId);
-                modService.setRoomName(data.name);
-                modService.setUserId(data.userId);
+                modService.setRoomName(data.owner.name);
                 modService.setUsername(username);
                 modService.setIsOwner(data.owner._id)
                 
@@ -110,7 +109,7 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     $scope.questions = [];
     $scope.isOwner = modService.getIsOwner();
     $scope.lockInterface = false;
-    $scope.title = modService.getRoomName() + " " + modService.getRoomCode();
+    $scope.title = ($scope.isOwner) ? modService.getRoomName() + " - " + modService.getRoomCode() : modService.getRoomCode() ;
     $scope.codeValue = '';
     
     var socket = io.connect(
