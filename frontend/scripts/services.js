@@ -1,42 +1,3 @@
-questionApp.service("loginService", function() {
-    var loginInfo = {
-        roomCode: "",
-        roomId: "",
-        userId: "",
-        username: ""
-    };
-    
-    return {
-        info:function() {
-            return loginInfo;
-        },
-        setRoomCode: function(roomCode) {
-            loginInfo.roomCode = roomCode;
-        },
-        getRoomCode: function() {
-            return loginInfo.roomCode;
-        },
-        setRoomId: function(roomId) {
-            loginInfo.roomId = roomId;
-        },
-        getRoomId: function() {
-            return loginInfo.roomId;
-        },
-        setUserId: function(userId) {
-            loginInfo.userId = userId;     
-        },
-        getUserId: function() {
-            return loginInfo.userId;
-        },
-        setUsername: function(username) {
-            loginInfo.username = username;     
-        },
-        getUsername: function() {
-            return loginInfo.username;
-        }
-    };
-});
-
 questionApp.service("modService", function() {
     var modInfo = {
         roomCode: "",
@@ -110,6 +71,31 @@ questionApp.service('questionMappingService', function() {
                 'text' : question.description,
                 'answer' : question.answer
             };
+        },
+        'JSONtoParticipant' : function(participant) {
+            return {
+                name: participant.name,
+                id: participant._id,
+                score: participant.score
+            };
         }
     };
 });
+
+//questionApp.service('socket', function() {
+//    var socket = null;
+//    return {
+//        init: function(url, query) {
+//           socket = io.connect(url, query);
+//            console.log("HERE");
+//        },
+//        on: function(eventName, callback) {
+//            socket.on(eventName, function () {  
+//                var args = arguments;
+//                $scope.$apply(function () {
+//                    callback.apply(socket, args);
+//                });
+//            });   
+//        }
+//    };
+//});
