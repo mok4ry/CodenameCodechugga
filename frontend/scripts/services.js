@@ -85,6 +85,10 @@ questionApp.service("modService", function() {
 
 questionApp.service('urlService', function() {
     return {
-        baseURL : 'http://localhost:8080'   
+        baseURL : 'http://localhost:8080',
+        postRequest : {
+            'method' : 'POST',
+            'headers' : {'Content-Type': 'application/json'}
+        }
     }
 });

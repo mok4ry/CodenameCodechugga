@@ -107,7 +107,7 @@ codeChuggaController.controller('PartCompCtrl', ['$scope', '$http', '$location',
     
 }]);
 
-codeChuggaController.controller('CompController', ['$scope', '$http', 'modService', function($scope, $http, modService) {
+codeChuggaController.controller('CompController', ['$scope', '$http', 'modService', 'urlService', function($scope, $http, modService, urlService) {
     $scope.questions = [
         {
             'name' : 'Question 1',
@@ -119,7 +119,7 @@ codeChuggaController.controller('CompController', ['$scope', '$http', 'modServic
     ];
     
     $scope.newQuestionClicked = function() {
-        $scope.questions.push({'newQuestion' : true});
+        $scope.questions.push({});
     }
     
     $scope.editButtonClicked = function(question) {
@@ -128,13 +128,30 @@ codeChuggaController.controller('CompController', ['$scope', '$http', 'modServic
     }
     
     $scope.saveButtonClicked = function(question) {
-        //HTTP request
-        console.log(modService.getRoomId());
+        requestObject = urlService.postRequest;
         
-        question.editing = false;
-        question.newQuestion = false;
-        
-        questionIndex = $scope.questions.indexOf(question);
-        $scope.questions[questionIndex] = question;
+        //Create new question otherwise update
+        if(question.id) {
+            requestObject.url = urlService.baseURL + '/api/competitions/' + modService.getRoomId() + '/challenges';
+            requestObject.data = {
+                'name' : question.name,
+                'text' : question.description,
+                'answer' : question.answer
+            }
+
+            $http(requestObject).success(function(data, status, headers, config) {
+                //Update the question id and editing modes
+                question.id = data._id;
+                question.editing = false;
+
+                questionIndex = $scope.questions.indexOf(question);
+            $scope.questions[questionIndex] = question;
+            }).error(function(data, status, headers, config) {
+                console.log(data);  
+            });
+        }
+        else {
+            
+        }
     }
 }]);
