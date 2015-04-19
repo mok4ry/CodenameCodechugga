@@ -65,6 +65,16 @@ RETURNS
 
 ==========
 
+Update challenge
+
+PUT /api/competitions/:competition_id/challenges/:challenge_id
+{
+    // NOTE: these fields are all optional. Any that are present will be updated.
+    "name":"Updated Name",
+    "text":"Updated Text",
+    "answer":"Updated Answer"
+}
+
 Start challenge
 
 PUT /api/competitions/:competition_id/challenges/:challenge_id/start

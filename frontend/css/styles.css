@@ -170,6 +170,17 @@ body {
     font-size: 24px;
 }
 
+.questionEditBox {
+    transition: all .65s;  
+    -webkit-transition: all .65;
+    max-height: 200px;
+    opacity: 1;
+}
+
+.questionInfoBox {
+    transition: all .25s;
+}
+
 /* #Green Sea Flat Button
 ==================================================*/
 .green-sea-flat-button {
@@ -229,5 +240,14 @@ body {
 }
 
 .questionItem.ng-leave.ng-leave-active {
+    opacity: 0;
+}
+
+.questionEditBox.ng-hide {
+    opacity: 0;
+    max-height: 0px;
+}
+
+.questionInfoBox.ng-hide {
     opacity: 0;
 }

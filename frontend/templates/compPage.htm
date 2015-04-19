@@ -26,31 +26,20 @@
                             <h3 class="cardSectionHeadingTitle">Questions</h3>
                             <button class="green-sea-flat-button questionButton" style="float:right" ng-click="newQuestionClicked()">New Question</button>
                         </div>
-<!--
-                        <div class="questionItem">
-                            <span class="questionTitle">Question 1</span>
-                            <button class="green-sea-flat-button questionButton red" style="float: right">Edit</button>
-                            <button class="green-sea-flat-button questionButton" style="float: right">Start</button>
-                        </div>
-                        <div class="questionItem">
-                            <span class="questionTitle">Question 2</span>
-                            <button class="green-sea-flat-button questionButton red" style="float: right">Edit</button>
-                            <button class="green-sea-flat-button questionButton" style="float: right">Start</button>
-                        </div>
--->
+                        
                         <div class="questionItem" ng-repeat="question in questions">
                             
-                            <div ng-show="question.name">
+                            <div class="questionInfoBox" ng-show="!question.editing">
                                 <span class="questionTitle">{{question.name}}</span>
-                                <button class="green-sea-flat-button questionButton red" style="float: right">Edit</button>
+                                <button class="green-sea-flat-button questionButton red" style="float: right" ng-click="editButtonClicked(question)">Edit</button>
                                 <button class="green-sea-flat-button questionButton" style="float: right">Start</button>
                             </div>
                             
-                            <div class="questionEditBox" ng-show="!question.name" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">
-                                <input type="text" placeholder="Title"/><br />
-                                <textarea placeholder="Description"></textarea><br />
-                                <textarea placeholder="Answer"></textarea><br />
-                                <button class="green-sea-flat-button">Save</button>
+                            <div class="questionEditBox" ng-show="question.editing" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">
+                                <input type="text" placeholder="Title" ng-model="question.name"/><br />
+                                <textarea placeholder="Description" ng-model="question.description"></textarea><br />
+                                <textarea placeholder="Answer" ng-model="question.answer"></textarea><br />
+                                <button class="green-sea-flat-button" ng-click="saveButtonClicked(question)">Save</button>
                             </div>
                         </div>
                     </div>

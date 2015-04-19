@@ -125,6 +125,20 @@ router.route('/competitions/:comp_id/challenges')
         });
     });
 
+router.route('/competitions/:comp_id/challenges/:challenge_id')
+    .put(function (req, res) {
+        var updates = {};
+        if (req.body.name) updates.name = req.body.name;
+        if (req.body.text) updates.text = req.body.text;
+        if (req.body.answer) updates.answer = req.body.answer;
+
+        Challenge.update({
+            _id : req.params.challenge_id
+        }, updates, function (err, numAffected) {
+            res.send(200);
+        });
+    });
+
 router.route('/competitions/:comp_id/challenges/:challenge_id/start')
     .put(function (req, res) {
         Room.findById(req.params.comp_id, function (err, room) {

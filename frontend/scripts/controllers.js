@@ -112,11 +112,25 @@ codeChuggaController.controller('CompController', ['$scope', function($scope) {
         {
             'name' : 'Question 1',
             'description' : 'This is a description',
-            'answer' : 'answer',
+            'answer' : 'This is the answer',
+            'editing' : false
         },
         
     ];
+    
     $scope.newQuestionClicked = function() {
-        $scope.questions.push({});
+        $scope.questions.push({'editing' : true});
+    }
+    
+    $scope.editButtonClicked = function(question) {
+        questionIndex = $scope.questions.indexOf(question);
+        $scope.questions[questionIndex].editing = true;
+    }
+    
+    $scope.saveButtonClicked = function(question) {
+        question.editing = false;
+        
+        questionIndex = $scope.questions.indexOf(question);
+        $scope.questions[questionIndex] = question;
     }
 }]);
