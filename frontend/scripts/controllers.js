@@ -10,7 +10,7 @@ codeChuggaController.controller('HomeCtrl', ['$scope', '$http', '$location', fun
     }
 }]);
 
-codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'loginService', 'urlService', function ($scope, $http, $location, loginService, urlService) {
+codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'modService', 'urlService', function ($scope, $http, $location, modService, urlService) {
     $scope.submit = function() {
         resetForms();
         var roomCode = $scope.joinName;
@@ -31,12 +31,14 @@ codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'lo
             data: JSON.stringify(data),
             headers: {'Content-Type': 'application/json'}}).
               success(function(data, status, headers, config) {
+                console.log(data);
                 // Propagate to service
-                loginService.setRoomCode(roomCode);
-                loginService.setRoomId(data.roomId);
-                loginService.setUserId(data.userId);
-                loginService.setUsername(username);
-                console.log(loginService.info());
+                modService.setRoomCode(roomCode);
+                modService.setRoomId(data.roomId);
+                modService.setUserId(data.userId);
+                modService.setUsername(username);
+                modService.setIsOwner(data.owner._id == data._id)
+                console.log(modService.info());
                 
                 console.log("Receiving:Data=" + JSON.stringify(data) +
                 "\nStatus=" + status);
@@ -80,6 +82,7 @@ codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', '
                 modService.setRoomPassword(password);
                 modService.setUserId(data.owner._id);
                 modService.setUsername(username);
+                modService.setIsOwner(data.owner._id == data._id);
                 console.log(modService.info());
                 
                 console.log("Data=" + JSON.stringify(data) +
