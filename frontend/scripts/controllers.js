@@ -109,6 +109,7 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     
     $scope.questions = [];
     $scope.isOwner = modService.getIsOwner();
+    $scope.lockInterface = false;
     $scope.title = modService.getRoomName() + " " + modService.getRoomCode();
     $scope.codeValue = '';
     
@@ -176,12 +177,7 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
                 participants[i].locked = false;   
            }
         }
-        console.log(modService.getUserId() + " " + id);
-        if(modService.getUserId() === id) {
-            document.getElementById('codeArea').disabled = false;
-            document.getElementById('codeArea').style.backgroundColor = '';
-            document.getElementById('codeSubmit').disabled = false;
-        }
+
         console.log("Received 'correct-answer-submitted' with");
         console.log(data); 
         $scope.$apply();
@@ -195,11 +191,8 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
                 participants[i].locked = true;   
            }
         }
-        console.log(modService.getUserId() + " " + id);
-        if(modService.getUserId() === id) {
-            document.getElementById('codeArea').disabled = true;
-            document.getElementById('codeArea').style.backgroundColor = 'red';
-            document.getElementById('codeSubmit').disabled = true;
+        if(modService.getUserId() == id) {
+            $scope.lockInterface = true;
         }
         console.log("Received 'incorrect-answer-submitted' with");
         console.log(data); 
