@@ -69,7 +69,8 @@ questionApp.service('questionMappingService', function() {
             return {
                 name: participant.name,
                 id: participant._id,
-                score: participant.score
+                score: participant.score,
+                locked: participant.locked
             };
         }
     };
