@@ -7,15 +7,9 @@
 <div class="container-fluid compPage">
     <div class="row-fluid compPage">
         <div id="participantContainer" class="span2">
-<<<<<<< HEAD
-            <div class="participantItem">
-                <div class="participantScore">fe06ae</div>
-                <div class="participantTitle">Eric Lee</div>
-=======
             <div class="participantItem" ng-repeat="participant in participants">
                 <div class="participantScore">200</div>
                 <div class="participantTitle">{{participant.name}}</div>
->>>>>>> f2f67bd8903116522a940c67c1d584a64633ba3c
                 <div class="participantStatus"></div>
             </div>
         </div>
@@ -28,7 +22,7 @@
                     </div>
                     
                     <!--Mod HTML -->
-                    <div class="questionContainer" ng-show="modService.isOwner()">
+                    <div class="questionContainer" ng-show="isOwner">
                         <div class="questionItem">
                             <h3 class="cardSectionHeadingTitle">Questions</h3>
                             <button class="green-sea-flat-button questionButton" style="float:right" ng-click="newQuestionClicked()">New Question</button>
@@ -52,13 +46,19 @@
                     </div>
                     
                     <!-- Participant HTML -->
-                    <div class="questionContainer" ng-show="!modService.isOwner()">
+                    <div class="questionContainer" ng-show="!isOwner">
                         <div class="questionItem">
-                            <h3 class="questionTitle">Question Name:</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+                            <div ng-show="questions.length > 0">
+                                <h3 class="questionTitle">Question Name:</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+
+                                <textarea placeholder="Put Code Here :)" style="width: 95%; height: 200px"></textarea><br />
+                                <button class="green-sea-flat-button">Submit</button>
+                            </div>
                             
-                            <textarea placeholder="Put Code Here :)" style="width: 95%; height: 200px"></textarea><br />
-                            <button class="green-sea-flat-button">Submit</button>
+                            <div ng-show="questions.length == 0">
+                                <h3>Nothing to see here!</h3>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -37,7 +37,7 @@ codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'mo
                 modService.setRoomId(data.roomId);
                 modService.setUserId(data.userId);
                 modService.setUsername(username);
-                modService.setIsOwner(data.owner._id == data._id)
+                modService.setIsOwner(data.owner._id)
                 
                 console.log("Receiving:Data=" + JSON.stringify(data) +
                 "\nStatus=" + status);
@@ -81,7 +81,7 @@ codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', '
                 modService.setRoomPassword(password);
                 modService.setUserId(data.owner._id);
                 modService.setUsername(username);
-                modService.setIsOwner(data.owner._id == data._id);
+                modService.setIsOwner(data.owner._id);
                 console.log(modService.info());
                 
                 console.log("Data=" + JSON.stringify(data) +
@@ -99,6 +99,10 @@ codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', '
 }]);
 
 codeChuggaController.controller('CompController', ['$scope', '$http', 'modService', 'urlService', 'questionMappingService', function($scope, $http, modService, urlService, questionMappingService) {
+    
+    $scope.questions = [];
+    $scope.isOwner = modService.getIsOwner();
+    
     var socket = io.connect(
     'http://localhost:8080', 
     { query:
@@ -152,16 +156,6 @@ codeChuggaController.controller('CompController', ['$scope', '$http', 'modServic
     socket.on('incorrect-answer-submitted', function (data) {
         // TODO: Update view for the userId    
     });
-    
-    $scope.questions = [
-        {
-            'name' : 'Question 1',
-            'description' : 'This is a description',
-            'answer' : 'This is the answer',
-            'editing' : false
-        },
-        
-    ];
     
     $scope.newQuestionClicked = function() {
         $scope.questions.push({'editing' : true});

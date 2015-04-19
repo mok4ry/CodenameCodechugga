@@ -46,7 +46,7 @@ questionApp.service("modService", function() {
             return modInfo.isOwner;   
         },
         setIsOwner : function(value) {
-            modInfo.isOwner = value;   
+            modInfo.isOwner = (value == modInfo.userId);   
         }
     };
 });
