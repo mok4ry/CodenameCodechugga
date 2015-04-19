@@ -4,7 +4,8 @@ questionApp.service("modService", function() {
         roomId: "",
         roomPassword: "",
         userId: "",
-        username: ""
+        username: "",
+        isOwner: false
     };
     
     return {
@@ -40,6 +41,12 @@ questionApp.service("modService", function() {
         },
         getUsername: function() {
             return modInfo.username;
+        },
+        getIsOwner : function() {
+            return modInfo.isOwner;   
+        },
+        setIsOwner : function(value) {
+            modInfo.isOwner = value;   
         }
     };
 });
