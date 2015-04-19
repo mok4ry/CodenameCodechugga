@@ -94,7 +94,7 @@ questionApp.service('questionMappingService', function() {
                 description: question.text,
                 answer: question.answer,
                 id: question._id,
-                editing: true,
+                editing: false,
                 startEnabled: true
             };
         }

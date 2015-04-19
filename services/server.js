@@ -104,26 +104,22 @@ router.route('/competitions/:comp_code')
                 res.send(401, { error : "Invalid password for competition " + req.params.comp_code });
             } else {
                 var room = rooms[0];
-                var user;
 
                 User.find({
                     name : req.body.username
                 }, function (err, users) {
-                    users.forEach(function (u) {
-                        if (room.members.indexOf(u._id) > -1)
-                            user = u;
-                    });
+                    var user;
+                    console.log(users);
 
-                    if (!user) {
+                    if (!users || users.length === 0) {
                         user = new User();
                         user.name = req.body.username;
                         user.score = 0;
                         user.locked = false;
                         user.save();
-                    }
-
-                    room.members.push(user._id);
-                    room.save();
+                        room.members.push(user._id);
+                        room.save();
+                    } else user = users[0];
 
                     Room.populate(room, {
                         path : 'owner',
@@ -308,7 +304,7 @@ http.listen(port, function () {
     console.log('Magic happens on port ' + port);
 });
 
-io.set('origins', 'http://localhost:8000');
+io.set('origins', '*:*');
 
 io.on('connection', function(socket){
     clients[socket.id] = socket;

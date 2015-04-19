@@ -117,7 +117,7 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     };
     
     var socket = io.connect(
-    'http://129.21.120.96:8080', 
+    '129.21.120.96:8080', 
     { query:
         "roomId=" + modService.getRoomId() + 
         "&userId=" + modService.getUserId() 
@@ -127,7 +127,9 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     // ================
     socket.on('connected-to-competition', function (data) {
         if($scope.isOwner) {
-            $scope.questions = data.challenges;
+            data.challenges.forEach(function (challenge) {
+                $scope.questions.push(questionMappingService.JSONtoQuestion(challenge));
+            });
         }
         if(data.running) {
             $scope.activeQuestion = data.activeChallenge;
