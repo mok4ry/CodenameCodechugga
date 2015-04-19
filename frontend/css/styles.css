@@ -132,7 +132,7 @@ body {
     padding-top: 10px;
     
     border-bottom: 1px solid #eae8e8;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 
 .cardHeader h1, h2, h3, h4, h5, h6 {
@@ -140,26 +140,41 @@ body {
     color: #575757;
 }
 
+.cardSectionHeading {
+    padding: 0px 15px 10px 15px;
+    border-bottom: 1px solid #eae8e8;
+}
+
+.questionItem {
+    border-bottom: 1px solid #eae8e8; 
+    padding: 20px;
+}
+
+.questionTitle {
+    font-size: 24px;
+    position: relative;
+    top: 50%;
+    line-height: 50px;
+}
+
 /* #Green Sea Flat Button
 ==================================================*/
 .green-sea-flat-button {
-  position: relative;
-  vertical-align: top;
-  width: 100%;
-  height: 60px;
-  padding: 0;
-  font-size: 22px;
-  color: white;
-  text-align: center;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-  background: #78d09d;
-  border: 0;
-  border-bottom: 2px solid #6ab289;
-  cursor: pointer;
-  -webkit-box-shadow: inset 0 0px 2px #6ab289;
-  box-shadow: inset 0 0px 2px #6ab289;
-  border-radius: 5px;
-    
+    position: relative;
+    vertical-align: top;
+    padding: 0;
+    font-size: 20px;
+    color: white;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    background: #78d09d;
+    border: 0;
+    border-bottom: 2px solid #6ab289;
+    cursor: pointer;
+    -webkit-box-shadow: inset 0 0px 2px #6ab289;
+    box-shadow: inset 0 0px 2px #6ab289;
+    border-radius: 5px;
+    padding: 15px;
 }
 .green-sea-flat-button:active {
     top: 1px;
@@ -171,4 +186,16 @@ body {
 
 .green-sea-flat-button:focus {
     outline:0;
+}
+
+.green-sea-flat-button.questionButton {
+    float: right;
+    margin-left: 10px;
+}
+
+.green-sea-flat-button.questionButton.red {
+    background: #dd8080;
+    border-bottom: 2px solid #b26a72;
+    -webkit-box-shadow: inset 0 0px 2px #b26a72;
+    box-shadow: inset 0 0px 2px #b26a72;
 }
