@@ -195,66 +195,74 @@ router.route('/competitions/:comp_id/challenges/:challenge_id/start')
 
 router.route('/competitions/:comp_id/challenges/:challenge_id/submit')
     .post(function (req, res) {
-        Room.findById(req.params.comp_id, function (err, room) {
-            Challenge.findById(req.params.challenge_id, function (err, challenge) {
-                var sandbox = { answer : null };
-                vm.createContext(sandbox);
-                try {
-                    vm.runInContext(req.body.code, sandbox, { timeout : 2000 });
-                    if (sandbox.answer == challenge.answer) {
-                        User.findById(req.body.userId, function (err, user) {
-                            var points = challenge.scores[challenge.solved];
-                            console.log("Points: " + points);
-                            var updatedScore = user.score + points;
-                            user.score = updatedScore;
-                            user.save();
+        User.findById(req.body.userId, function (err, user) {
+            if (user.locked) {
+                res.send(401, {
+                    error : "You are locked!"
+                });
+            } else {
+                Room.findById(req.params.comp_id, function (err, room) {
+                    Challenge.findById(req.params.challenge_id, function (err, challenge) {
+                        var sandbox = { answer : null };
+                        vm.createContext(sandbox);
+                        try {
+                            vm.runInContext(req.body.code, sandbox, { timeout : 2000 });
+                            if (sandbox.answer == challenge.answer) {
+                                User.findById(req.body.userId, function (err, user) {
+                                    var points = challenge.scores[challenge.solved];
+                                    console.log("Points: " + points);
+                                    var updatedScore = user.score + points;
+                                    user.score = updatedScore;
+                                    user.save();
 
-                            challenge.solved += 1;
-                            challenge.save();
+                                    challenge.solved += 1;
+                                    challenge.save();
 
-                            room.connected.forEach(function (socketId) {
-                                if (clients[socketId]) {
-                                    clients[socketId].emit('correct-answer-submitted', {
-                                        userId : req.body.userId,
-                                        score : updatedScore,
-                                        challengeId : req.params.challenge_id
+                                    room.connected.forEach(function (socketId) {
+                                        if (clients[socketId]) {
+                                            clients[socketId].emit('correct-answer-submitted', {
+                                                userId : req.body.userId,
+                                                score : updatedScore,
+                                                challengeId : req.params.challenge_id
+                                            });
+                                            if (challenge.solved === challenge.scores.length) {
+                                                clients[socketId].emit('challenge-over', {
+                                                    challengeId : req.params.challenge_id
+                                                });
+                                            }
+                                        }
                                     });
-                                    if (challenge.solved === challenge.scores.length) {
-                                        clients[socketId].emit('challenge-over', {
+                                });
+                            } else {
+                                User.findById(req.body.userId, function (err, user) {
+                                    user.locked = true;
+                                    user.save();
+                                });
+                                room.connected.forEach(function (socketId) {
+                                    if (clients[socketId])
+                                        clients[socketId].emit('incorrect-answer-submitted', {
+                                            userId : req.body.userId,
                                             challengeId : req.params.challenge_id
                                         });
-                                    }
-                                }
-                            });
-                        });
-                    } else {
-                        User.findById(req.body.userId, function (err, user) {
-                            user.locked = true;
-                            user.save();
-                        });
-                        room.connected.forEach(function (socketId) {
-                            if (clients[socketId])
-                                clients[socketId].emit('incorrect-answer-submitted', {
-                                    userId : req.body.userId,
-                                    challengeId : req.params.challenge_id
                                 });
-                        });
-                    }
-                } catch (e) {
-                    User.findById(req.body.userId, function (err, user) {
-                        user.locked = true;
-                        user.save();
-                    });
-                    room.connected.forEach(function (socketId) {
-                        if (clients[socketId])
-                            clients[socketId].emit('incorrect-answer-submitted', {
-                                userId : req.body.userId,
-                                challengeId : req.params.challenge_id
+                            }
+                        } catch (e) {
+                            User.findById(req.body.userId, function (err, user) {
+                                user.locked = true;
+                                user.save();
                             });
+                            room.connected.forEach(function (socketId) {
+                                if (clients[socketId])
+                                    clients[socketId].emit('incorrect-answer-submitted', {
+                                        userId : req.body.userId,
+                                        challengeId : req.params.challenge_id
+                                    });
+                            });
+                        }
+                        res.send(200);
                     });
-                }
-                res.send(200);
-            });
+                });
+            }
         });
     });
 

@@ -137,10 +137,21 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     });
     
     socket.on('new-active-challenge', function (data) {
-        $scope.activeQuestion = data
+        $scope.activeQuestion = questionMappingService.JSONtoQuestion(data);
         // TODO:
             // Mod: Highlight the right question
             // Part: Only display active challenge
+        
+        console.log("Received 'new-active-challenge' with");
+        console.log(data);
+        $scope.$apply();
+    });
+    
+    socket.on('active-challenge-updated', function (data) {
+        console.log("Received 'active-challenge-updated' with");
+        console.log(data); 
+        $scope.$apply();
+
     });
               
     socket.on('correct-answer-submitted', function (data) {
@@ -151,7 +162,9 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
             }
         });
         if(modService.getUserId() === id) {
-            // TODO: UNLOCK MYSELF, IF ID IS ME
+            document.getElementById('codeArea').disabled = false;
+            document.getElementById('codeArea').style.backgroundColor = '';
+            document.getElementById('codeSubmit').disabled = false;
         }
         $scope.$apply();
     });
@@ -164,7 +177,9 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
             }
         });
         if(modService.getUserId() === id) {
-            // TODO: LOCK MYSELF, IF ID IS ME
+            document.getElementById('codeArea').disabled = true;
+            document.getElementById('codeArea').style.backgroundColor = 'red';
+            document.getElementById('codeSubmit').disabled = true;
         }
         $scope.$apply();
     });
