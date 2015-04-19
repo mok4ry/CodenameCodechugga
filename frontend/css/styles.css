@@ -209,6 +209,27 @@ body {
     margin-left: calc(50% - 75px);
 }
 
+#correctScreen {
+    position: absolute;
+    top: 0px;
+    width: 87%;
+    height: 100%;
+    background-color: rgba(120, 208, 157, 0.74);
+    margin-left: -42px;
+    z-index: 1000;
+    opacity: .85;
+}
+
+.correctCenter {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: auto;
+    margin-right: auto;
+    color: white !important;
+    text-align: center;
+}
+
 /* #Green Sea Flat Button
 ==================================================*/
 .green-sea-flat-button {

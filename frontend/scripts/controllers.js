@@ -110,6 +110,7 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     $scope.questions = [];
     $scope.isOwner = modService.getIsOwner();
     $scope.lockInterface = false;
+    $scope.correctInterface = false;
     $scope.title = modService.getRoomName() + " " + modService.getRoomCode();
     $scope.codeValue = {
         value : ''
@@ -172,6 +173,7 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     });
               
     socket.on('correct-answer-submitted', function (data) {
+        console.log(data);
         var id = data.userId;
         var participants = $scope.participants;
         for(var i = 0; i < participants.length; i++) {
@@ -180,7 +182,10 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
                 participants[i].score = data.score;
            }
         }
-
+        
+        if(modService.getUserId() == data.userId) {
+            $scope.correctInterface = true;
+        }
         console.log("Received 'correct-answer-submitted' with");
         console.log(data); 
         $scope.$apply();
