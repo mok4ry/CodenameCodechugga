@@ -25,7 +25,7 @@ codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'lo
                 password: password,   
                 username: username
             };
-            alert("Sending\n" + JSON.stringify(data));
+            console.log("Sending\n" + JSON.stringify(data));
             $http({url: "http://localhost:8080/api/competitions/" + roomCode,
             method: "PUT",
             data: JSON.stringify(data),
@@ -38,14 +38,14 @@ codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'lo
                 loginService.setUsername(username);
                 console.log(loginService.info());
                 
-                alert("Receiving:Data=" + JSON.stringify(data) +
+                console.log("Receiving:Data=" + JSON.stringify(data) +
                 "\nStatus=" + status);
 
                 $location.url('/comp');
               }).
               error(function(data, status, headers, config) {
                 // TODO: More sophisticated error messsage
-                alert("Data=" + JSON.stringify(data) +
+                alert("ERROR\n:Data=" + JSON.stringify(data) +
                      "\nStatus=" + status);
               });
         }
@@ -68,7 +68,7 @@ codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', '
                 roomName: roomCode,
                 roomPassword: password   
             };
-            alert("Sending\n" + JSON.stringify(data));
+            console.log("Sending\n" + JSON.stringify(data));
             $http({url: "http://localhost:8080/api/competitions",
             method: "POST",
             data: JSON.stringify(data),
@@ -82,14 +82,14 @@ codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', '
                 modService.setUsername(username);
                 console.log(modService.info());
                 
-                alert("Data=" + JSON.stringify(data) +
+                console.log("Data=" + JSON.stringify(data) +
                 "\nStatus=" + status);
 
                 $location.url('/comp');
               }).
               error(function(data, status, headers, config) {
                 // TODO: More sophisticated error messsage
-                alert("Data=" + JSON.stringify(data) +
+                alert("ERROR\n:Data=" + JSON.stringify(data) +
                      "\nStatus=" + status);
               });
         }
@@ -107,7 +107,7 @@ codeChuggaController.controller('PartCompCtrl', ['$scope', '$http', '$location',
     
 }]);
 
-codeChuggaController.controller('CompController', ['$scope', function($scope) {
+codeChuggaController.controller('CompCtlr', ['$scope', function($scope) {
     $scope.questions = [
         {
             'name' : 'Question 1',
