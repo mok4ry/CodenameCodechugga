@@ -42,3 +42,41 @@ RETURNS
     "userId": "5532b9310d72c2cde2000003",
     "roomId": "5532b9090d72c2cde2000002"
 }
+
+==========
+
+Create challenge
+
+POST /api/competitions/:competition_id/challenges
+{
+    "name":"Challenge Name 1",
+    "text":"This is the description of this challenge. The answer is 42.",
+    "answer":"42"
+}
+
+RETURNS
+{
+    "__v": 0,
+    "answer": "42",
+    "text": "This is the description of this challenge. The answer is 42.",
+    "name": "Challenge Name 1",
+    "_id": "5532cbc5c3630f7b05000003"
+}
+
+==========
+
+Start challenge
+
+PUT /api/competitions/:competition_id/challenges/:challenge_id/start
+{
+    
+}
+
+RETURNS
+{
+    "__v": 0,
+    "answer": "42",
+    "text": "This is the description of this challenge. The answer is 42.",
+    "name": "Challenge Name 1",
+    "_id": "5532cbc5c3630f7b05000003"
+}
