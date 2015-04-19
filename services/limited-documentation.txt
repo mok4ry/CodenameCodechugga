@@ -80,3 +80,58 @@ RETURNS
     "name": "Challenge Name 1",
     "_id": "5532cbc5c3630f7b05000003"
 }
+
+==========
+
+Client-side socket messages
+
+'connected-to-competition'
+{
+    // ONLY IF MODERATOR
+    "challenges":[
+
+    ],
+
+    "code":"27519b",
+    "members":[
+        {
+            "_id":"553316627519b6ba0c000001",
+            "name":"Matt"
+        }
+    ],
+    "name":"Some Competition Name",
+    "owner":{
+        "_id":"553316627519b6ba0c000001",
+        "name":"Eric"
+    },
+    running: false,
+
+    // ONLY IF RUNNING == true, i.e. there is an active challenge
+    activeChallenge:{
+        "_id":"553316627519b6ba0c000001",
+        "name":"Some Challenge",
+        "text":"This is the challenge description text."
+    }
+}
+
+
+'new-active-challenge'
+{
+    "_id":"553316627519b6ba0c000001",
+    "name":"Some Challenge",
+    "text":"This is the challenge description text."
+}
+
+
+'correct-answer-submitted'
+{
+    "userId":"553316627519b6ba0c000001",
+    "challengeId":"553316727519b6ba0c000003"
+}
+
+
+'incorrect-answer-submitted'
+{
+    "userId":"553316627519b6ba0c000001",
+    "challengeId":"553316727519b6ba0c000003"
+}

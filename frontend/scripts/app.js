@@ -1,4 +1,4 @@
-var questionApp = angular.module('codechugga', ['ngRoute', 'codeChuggaController']);
+var questionApp = angular.module('codechugga', ['ngRoute', 'ngAnimate', 'codeChuggaController']);
 
 
 questionApp.config(['$routeProvider', function($routeProvider) {
@@ -20,7 +20,7 @@ questionApp.config(['$routeProvider', function($routeProvider) {
               
         .when('/comp', {
             templateUrl : './templates/compPage.htm',
-            controler   : 'CompCtrl'
+            controller  : 'CompCtrl'
         })
               
         .otherwise({
