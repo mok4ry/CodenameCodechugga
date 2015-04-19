@@ -26,6 +26,14 @@
             socket.on('active-challenge-updated', function (info) {
                 console.log(info);
             });
+
+            socket.on('user-connected', function (info) {
+                console.log(info);
+            });
+
+            socket.on('user-disconnected', function (info) {
+                console.log(info);
+            });
         </script>
     </head>
     <body>
