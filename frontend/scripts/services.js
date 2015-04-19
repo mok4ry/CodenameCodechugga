@@ -82,3 +82,9 @@ questionApp.service("modService", function() {
         }
     };
 });
+
+questionApp.service('urlService', function() {
+    return {
+        baseURL : 'http://localhost:8080'   
+    }
+});

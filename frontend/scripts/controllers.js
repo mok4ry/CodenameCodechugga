@@ -10,7 +10,7 @@ codeChuggaController.controller('HomeCtrl', ['$scope', '$http', '$location', fun
     }
 }]);
 
-codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'loginService', function ($scope, $http, $location, loginService) {
+codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'loginService', 'urlService', function ($scope, $http, $location, loginService, urlService) {
     $scope.submit = function() {
         resetForms();
         var roomCode = $scope.joinName;
@@ -26,7 +26,7 @@ codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'lo
                 username: username
             };
             console.log("Sending\n" + JSON.stringify(data));
-            $http({url: "http://localhost:8080/api/competitions/" + roomCode,
+            $http({url: urlService.baseURL + '/api/competitions/' + roomCode,
             method: "PUT",
             data: JSON.stringify(data),
             headers: {'Content-Type': 'application/json'}}).
@@ -52,7 +52,7 @@ codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'lo
     }
 }]);
 
-codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', 'modService', function ($scope, $http, $location, modService) {
+codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', 'modService', 'urlService', function ($scope, $http, $location, modService, urlService) {
     $scope.submit = function() {
         resetForms(); 
         var roomCode = $scope.createName;
@@ -69,7 +69,7 @@ codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', '
                 roomPassword: password   
             };
             console.log("Sending\n" + JSON.stringify(data));
-            $http({url: "http://localhost:8080/api/competitions",
+            $http({url: urlService.baseURL + '/api/competitions',
             method: "POST",
             data: JSON.stringify(data),
             headers: {'Content-Type': 'application/json'}}).
