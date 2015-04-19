@@ -61,7 +61,7 @@ questionApp.service("modService", function() {
 questionApp.service('urlService', function() {
     return function() {
         returnValue = new Object();
-        returnValue.baseURL = 'http://localhost:8080';
+        returnValue.baseURL = 'http://129.21.120.96:8080';
         returnValue.postRequest = {
             'method' : 'POST',
             'headers' : {'Content-Type': 'application/json'}
