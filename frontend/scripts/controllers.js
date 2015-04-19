@@ -111,6 +111,7 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     $scope.isOwner = modService.getIsOwner();
     $scope.lockInterface = false;
     $scope.title = modService.getRoomName() + " " + modService.getRoomCode();
+    $scope.codeValue = '';
     
     var socket = io.connect(
     'http://localhost:8080', 
@@ -169,30 +170,32 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     });
               
     socket.on('correct-answer-submitted', function (data) {
-        var id = data.id;
-        $scope.participants.every(function(x) {
-            if(x.id === id) {
-                x.locked = false;   
-            }
-        });
-        if(modService.getUserId() == id) {
-            $scope.lockInterface = true;
+        var id = data.userId;
+        var participants = $scope.participants;
+        for(var i = 0; i < participants.length; i++) {
+           if(participants[i].id === id) {
+                participants[i].locked = false;   
+           }
         }
+
+        console.log("Received 'correct-answer-submitted' with");
+        console.log(data); 
         $scope.$apply();
     });
     
     socket.on('incorrect-answer-submitted', function (data) {
-        var id = data.id;
-        $scope.participants.every(function(x) {
-            if(x.id ===id) {
-                x.locked = true;   
-            }
-        });
-        if(modService.getUserId() === id) {
-            document.getElementById('codeArea').disabled = true;
-            document.getElementById('codeArea').style.backgroundColor = 'red';
-            document.getElementById('codeSubmit').disabled = true;
+        var id = data.userId;
+        var participants = $scope.participants;
+        for(var i = 0; i < participants.length; i++) {
+           if(participants[i].id === id) {
+                participants[i].locked = true;   
+           }
         }
+        if(modService.getUserId() == id) {
+            $scope.lockInterface = true;
+        }
+        console.log("Received 'incorrect-answer-submitted' with");
+        console.log(data); 
         $scope.$apply();
     });
     
@@ -277,6 +280,22 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
             }
             
         }).error(function(data, status, headers, config) {
+            console.error(data);
+        });
+    }
+    
+    $scope.submitCode = function (question) {
+        var data = {};
+        data.code = encodeURI($scope.codeValue);
+        data.userId = modService.getUserId();
+        requestObject = urlService().postRequest;
+        requestObject.url = urlService().baseURL + '/api/competitions/' + modService.getRoomId() + '/challenges/' + question.id + "/submit";
+        requestObject.method = 'POST';
+        requestObject.data = data;
+        $http(requestObject).success(function(data, status, headers, config) {
+            alert("HOORAY");
+        }).error(function(data, status, headers, config) {
+            alert("NOOOO");
             console.error(data);
         });
     }
