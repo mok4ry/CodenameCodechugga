@@ -44,6 +44,7 @@ body {
     background-color: #eeeeee;  
     padding-top: 72px;
     height: 100%;
+    overflow-x: hidden;
 }
 
 /**CUSTOM**/
@@ -181,6 +182,24 @@ body {
     transition: all .25s;
 }
 
+#lockScreen {
+    position:absolute;
+    top:0px;
+    width: 87%;
+    height: 100%;
+    background-color: #414141;
+    margin-left: -42px;
+    z-index: 1000;
+    opacity: .5;
+}
+
+#lockImage {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: calc(50% - 75px);
+}
+
 /* #Green Sea Flat Button
 ==================================================*/
 .green-sea-flat-button {
@@ -203,6 +222,7 @@ body {
 }
 .green-sea-flat-button:active {
     top: 1px;
+    z-index: 10;
     outline: none;
     -webkit-box-shadow: none;
     box-shadow: none;

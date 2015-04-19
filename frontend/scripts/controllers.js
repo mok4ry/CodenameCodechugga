@@ -107,6 +107,7 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     
     $scope.questions = [];
     $scope.isOwner = modService.getIsOwner();
+    $scope.lockInterface = false;
     
     var socket = io.connect(
     'http://localhost:8080', 
@@ -161,10 +162,8 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
                 x.locked = false;   
             }
         });
-        if(modService.getUserId() === id) {
-            document.getElementById('codeArea').disabled = false;
-            document.getElementById('codeArea').style.backgroundColor = '';
-            document.getElementById('codeSubmit').disabled = false;
+        if(modService.getUserId() == id) {
+            $scope.lockInterface = true;
         }
         $scope.$apply();
     });
