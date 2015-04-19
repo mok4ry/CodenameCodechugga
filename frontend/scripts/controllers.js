@@ -141,7 +141,17 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
         // TODO:
             // Mod: Highlight the right question
             // Part: Only display active challenge
+        
+        console.log("Received 'new-active-challenge' with");
+        console.log(data);
         $scope.$apply();
+    });
+    
+    socket.on('active-challenge-updated', function (data) {
+        console.log("Received 'active-challenge-updated' with");
+        console.log(data); 
+        $scope.$apply();
+
     });
               
     socket.on('correct-answer-submitted', function (data) {

@@ -86,6 +86,8 @@ questionApp.service('questionMappingService', function() {
                 descritpion: question.text,
                 answer: question.answer,
                 id: question._id
+                editing: true,
+                startEnabled: true
             };
         }
     };
