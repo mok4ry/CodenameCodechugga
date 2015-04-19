@@ -52,8 +52,8 @@
                             <div ng-repeat="question in questions">
                                 <h3 class="questionTitle">{{question.name}}</h3>
                                 <p>{{question.description}}</p>
-                                <textarea placeholder="Put Code Here :)" style="width: 95%; height: 200px"></textarea><br />
-                                <button class="green-sea-flat-button">Submit</button>
+                                <textarea ng-model="codeValue" placeholder="Put Code Here :)" style="width: 95%; height: 200px"></textarea><br />
+                                <button ng-click="submitCode(question)" class="green-sea-flat-button">Submit</button>
                             </div>
                             <div ng-show="questions.length == 0">
                                 <h3>Nothing to see here!</h3>

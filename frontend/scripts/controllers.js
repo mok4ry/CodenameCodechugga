@@ -110,6 +110,7 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     $scope.questions = [];
     $scope.isOwner = modService.getIsOwner();
     $scope.title = modService.getRoomName() + " " + modService.getRoomCode();
+    $scope.codeValue = '';
     
     var socket = io.connect(
     'http://localhost:8080', 
@@ -278,6 +279,22 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
             }
             
         }).error(function(data, status, headers, config) {
+            console.error(data);
+        });
+    }
+    
+    $scope.submitCode = function (question) {
+        var data = {};
+        data.code = encodeURI($scope.codeValue);
+        data.userId = modService.getUserId();
+        requestObject = urlService().postRequest;
+        requestObject.url = urlService().baseURL + '/api/competitions/' + modService.getRoomId() + '/challenges/' + question.id + "/submit";
+        requestObject.method = 'POST';
+        requestObject.data = data;
+        $http(requestObject).success(function(data, status, headers, config) {
+            alert("HOORAY");
+        }).error(function(data, status, headers, config) {
+            alert("NOOOO");
             console.error(data);
         });
     }
