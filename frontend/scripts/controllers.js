@@ -111,7 +111,9 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     $scope.isOwner = modService.getIsOwner();
     $scope.lockInterface = false;
     $scope.title = modService.getRoomName() + " " + modService.getRoomCode();
-    $scope.codeValue = '';
+    $scope.codeValue = {
+        value : ''
+    };
     
     var socket = io.connect(
     'http://localhost:8080', 
@@ -301,8 +303,7 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     
     $scope.submitCode = function (question) {
         var data = {};
-//        data.code = encodeURI($scope.codeValue);
-        data.code = $scope.codeValue;
+        data.code = encodeURI($scope.codeValue.value);
         data.userId = modService.getUserId();
         requestObject = urlService().postRequest;
         requestObject.url = urlService().baseURL + '/api/competitions/' + modService.getRoomId() + '/challenges/' + question.id + "/submit";

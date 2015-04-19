@@ -218,7 +218,9 @@ router.route('/competitions/:comp_id/challenges/:challenge_id/submit')
                         var sandbox = { answer : null };
                         vm.createContext(sandbox);
                         try {
-                            vm.runInContext(req.body.code, sandbox, { timeout : 2000 });
+                            vm.runInContext(decodeURI(req.body.code), sandbox, { timeout : 2000 });
+                            console.log("sandbox.answer : " + sandbox.answer);
+                            console.log("challenge.answer : " + challenge.answer);
                             if (sandbox.answer == challenge.answer) {
                                 User.findById(req.body.userId, function (err, user) {
                                     var points = challenge.scores[challenge.solved];
@@ -350,7 +352,8 @@ io.on('connection', function(socket){
             var index = room.connected.indexOf(socket.id);
             if (index > -1) room.connected.splice(index, 1);
             room.save(function (err, r) {
-                r.connected.forEach(function (socketId) {
+                if (err) console.log(err);
+                else r.connected.forEach(function (socketId) {
                     if (clients[socketId])
                         clients[socketId].emit('user-disconnected', {
                             userId : userId
