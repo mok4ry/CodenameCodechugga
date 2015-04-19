@@ -84,11 +84,25 @@ questionApp.service("modService", function() {
 });
 
 questionApp.service('urlService', function() {
-    return {
-        baseURL : 'http://localhost:8080',
-        postRequest : {
+    return function() {
+        returnValue = new Object();
+        returnValue.baseURL = 'http://localhost:8080';
+        returnValue.postRequest = {
             'method' : 'POST',
             'headers' : {'Content-Type': 'application/json'}
-        }
+        };
+        return returnValue;
     }
+});
+
+questionApp.service('questionMappingService', function() {
+    return {
+        'getJSON' : function(question) {
+            return {
+                'name' : question.name,
+                'text' : question.description,
+                'answer' : question.answer
+            };
+        }
+    };
 });

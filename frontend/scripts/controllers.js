@@ -26,7 +26,7 @@ codeChuggaController.controller('JoinCtrl', ['$scope', '$http', '$location', 'lo
                 username: username
             };
             console.log("Sending\n" + JSON.stringify(data));
-            $http({url: urlService.baseURL + '/api/competitions/' + roomCode,
+            $http({url: urlService().baseURL + '/api/competitions/' + roomCode,
             method: "PUT",
             data: JSON.stringify(data),
             headers: {'Content-Type': 'application/json'}}).
@@ -69,7 +69,7 @@ codeChuggaController.controller('CreateCtrl', ['$scope', '$http', '$location', '
                 roomPassword: password   
             };
             console.log("Sending\n" + JSON.stringify(data));
-            $http({url: urlService.baseURL + '/api/competitions',
+            $http({url: urlService().baseURL + '/api/competitions',
             method: "POST",
             data: JSON.stringify(data),
             headers: {'Content-Type': 'application/json'}}).
@@ -107,19 +107,12 @@ codeChuggaController.controller('PartCompCtrl', ['$scope', '$http', '$location',
     
 }]);
 
-codeChuggaController.controller('CompController', ['$scope', '$http', 'modService', 'urlService', function($scope, $http, modService, urlService) {
-    $scope.questions = [
-        {
-            'name' : 'Question 1',
-            'description' : 'This is a description',
-            'answer' : 'This is the answer',
-            'editing' : false
-        },
-        
-    ];
+codeChuggaController.controller('CompController', ['$scope', '$http', 'modService', 'urlService', 'questionMappingService', function($scope, $http, modService, urlService, questionMappingService) {
+    $scope.questions = [];
     
     $scope.newQuestionClicked = function() {
-        $scope.questions.push({});
+        $scope.questions.push({'editing' : true});
+        console.log($scope.questions)
     }
     
     $scope.editButtonClicked = function(question) {
@@ -128,16 +121,13 @@ codeChuggaController.controller('CompController', ['$scope', '$http', 'modServic
     }
     
     $scope.saveButtonClicked = function(question) {
-        requestObject = urlService.postRequest;
+        requestObject = urlService().postRequest;
         
         //Create new question otherwise update
-        if(question.id) {
-            requestObject.url = urlService.baseURL + '/api/competitions/' + modService.getRoomId() + '/challenges';
-            requestObject.data = {
-                'name' : question.name,
-                'text' : question.description,
-                'answer' : question.answer
-            }
+        if(!question.id) {
+            console.log('POSTING');
+            requestObject.url = urlService().baseURL + '/api/competitions/' + modService.getRoomId() + '/challenges';
+            requestObject.data = questionMappingService.getJSON(question);
 
             $http(requestObject).success(function(data, status, headers, config) {
                 //Update the question id and editing modes
@@ -147,11 +137,20 @@ codeChuggaController.controller('CompController', ['$scope', '$http', 'modServic
                 questionIndex = $scope.questions.indexOf(question);
             $scope.questions[questionIndex] = question;
             }).error(function(data, status, headers, config) {
-                console.log(data);  
+                console.error(data);  
             });
         }
         else {
-            
+            console.log('PUTTING')
+            requestObject.url = urlService().baseURL + '/api/competitions/' + modService.getRoomId() + '/challenges/' + question.id;
+            requestObject.method = 'PUT';
+            requestObject.data = questionMappingService.getJSON(question);
+            $http(requestObject).success(function(data, status, headers, config) {
+                question.editing = false;
+                console.log(data);
+            }).error(function(data, status, headers, config) {
+                console.error(data);
+            });
         }
     }
 }]);
