@@ -72,6 +72,7 @@ router.route('/competitions')
         var user = new User();
         user.name = req.body.username;
         user.score = 0;
+        user.locked = false;
         user.save();
 
         var room = new Room();
@@ -107,6 +108,7 @@ router.route('/competitions/:comp_code')
                 var user = new User();
                 user.name = req.body.username;
                 user.score = 0;
+                user.locked = false;
                 user.save();
 
                 room.members.push(user._id);
@@ -226,6 +228,10 @@ router.route('/competitions/:comp_id/challenges/:challenge_id/submit')
                             });
                         });
                     } else {
+                        User.findById(req.body.userId, function (err, user) {
+                            user.locked = true;
+                            user.save();
+                        });
                         room.connected.forEach(function (socketId) {
                             if (clients[socketId])
                                 clients[socketId].emit('incorrect-answer-submitted', {
@@ -235,8 +241,10 @@ router.route('/competitions/:comp_id/challenges/:challenge_id/submit')
                         });
                     }
                 } catch (e) {
-                    console.log(room.connected);
-                    console.log(clients);
+                    User.findById(req.body.userId, function (err, user) {
+                        user.locked = true;
+                        user.save();
+                    });
                     room.connected.forEach(function (socketId) {
                         if (clients[socketId])
                             clients[socketId].emit('incorrect-answer-submitted', {
@@ -247,6 +255,25 @@ router.route('/competitions/:comp_id/challenges/:challenge_id/submit')
                 }
                 res.send(200);
             });
+        });
+    });
+
+router.route('/competitions/:comp_id/users/:user_id/unlock')
+    .put(function (req, res) {
+        User.findById(req.params.user_id, function (err, user) {
+            user.locked = false;
+            user.save();
+
+            Room.findById(req.params.comp_id, function (err, room) {
+                room.connected.forEach(function (socketId) {
+                    if (clients[socketId])
+                        clients[socketId].emit('user-unlocked', {
+                            userId : req.params.user_id
+                        });
+                });
+            });
+
+            res.send(200);
         });
     });
 
