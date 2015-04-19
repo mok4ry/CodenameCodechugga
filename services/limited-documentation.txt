@@ -1,0 +1,44 @@
+Create competition
+
+POST /api/competitions
+{
+    "username":"desired_username",
+    "roomName":"Desired Room Name",
+    "roomPassword":"desiredRoomPassword1"
+}
+
+RETURNS
+{
+    "__v": 0,
+    "running": false,
+    "owner":{
+        "_id": "5532cba5c3630f7b05000001",
+        "name": "desired_username",
+        "__v": 0
+    },
+    "password": "desiredRoomPassword1",
+    "code": "5c3630",
+    "name": "Desired Room Name",
+    "_id": "5532cba5c3630f7b05000002",
+    "challenges":[],
+    "connected":[],
+    "members":[
+        "5532cba5c3630f7b05000001"
+    ]
+}
+
+==========
+
+Join competition
+
+PUT /api/competitions/:competition_code
+{
+    "password":"roomPassword1",
+    "username":"desired_username"
+}
+
+RETURNS
+{
+    "userId": "5532b9310d72c2cde2000003",
+    "roomId": "5532b9090d72c2cde2000002"
+}
