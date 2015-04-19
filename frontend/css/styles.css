@@ -88,6 +88,13 @@ body {
     height: 35px;
     border-bottom: 1px solid #eae8e8;
     padding: 10px;
+    transition: ease-in-out 100ms;
+}
+
+.participantItem:hover {
+    cursor: pointer;
+    background-color: #eae8e8;
+    transition: ease-in-out 100ms;
 }
 
 .participantTitle {

@@ -7,7 +7,7 @@
 <div class="container-fluid compPage">
     <div class="row-fluid compPage">
         <div id="participantContainer" class="span2">
-            <div class="participantItem" ng-repeat="participant in participants">
+            <div class="participantItem" ng-repeat="participant in participants" ng-click="unlockUser(participant)">
                 <div class="participantScore">{{participant.score}}</div>
                 <div class="participantTitle">{{participant.name}}</div>
                 <div class="participantStatus" ng-style="{'background-color': participant.status}"></div>

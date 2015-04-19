@@ -174,7 +174,8 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
         var participants = $scope.participants;
         for(var i = 0; i < participants.length; i++) {
            if(participants[i].id === id) {
-                participants[i].locked = false;   
+                participants[i].locked = false;
+                participants[i].score = data.score;
            }
         }
 
@@ -214,6 +215,19 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
         console.log("Received 'user-disconnected' with");
         console.log(data);
         $scope.$apply();  
+    });
+    
+    socket.on('user-unlocked', function(data) {
+        $scope.participants.forEach(function (x) {
+            if(data.userId === x.id) {
+                x.locked = false;   
+                x.status = '#5abc7d';
+            }
+        });
+        if(modService.getUserId() == data.userId) {
+            $scope.lockInterface = false;
+        }
+        $scope.$apply();
     });
     
     $scope.newQuestionClicked = function() {
@@ -287,17 +301,33 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
     
     $scope.submitCode = function (question) {
         var data = {};
-        data.code = encodeURI($scope.codeValue);
+//        data.code = encodeURI($scope.codeValue);
+        data.code = $scope.codeValue;
         data.userId = modService.getUserId();
         requestObject = urlService().postRequest;
         requestObject.url = urlService().baseURL + '/api/competitions/' + modService.getRoomId() + '/challenges/' + question.id + "/submit";
         requestObject.method = 'POST';
         requestObject.data = data;
         $http(requestObject).success(function(data, status, headers, config) {
-            alert("HOORAY");
+            console.log(question);
         }).error(function(data, status, headers, config) {
             alert("NOOOO");
             console.error(data);
         });
+    }
+    
+    $scope.unlockUser = function (user) {
+        if($scope.isOwner && user.locked) {
+            requestObject = urlService().postRequest;
+            requestObject.url = urlService().baseURL + '/api/competitions/' + modService.getRoomId() + '/users/' + user.id + "/unlock";
+            requestObject.method = 'PUT';
+            $http(requestObject).success(function(data, status, headers, config) {
+                console.log("Unlocked");
+                console.log(user);
+            }).error(function(data, status, headers, config) {
+                alert("Unlock error");
+                console.error(data);
+            });
+        }
     }
 }]);
