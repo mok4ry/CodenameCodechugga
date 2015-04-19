@@ -242,6 +242,12 @@ codeChuggaController.controller('CompController', ['$scope', '$http', '$location
         }
     }
     
+    $scope.cancelButtonClicked = function(question) {
+        question.editing = false;
+        questionIndex = $scope.questions.indexOf(question);
+        $scope.questions.splice(questionIndex, 1);
+    }
+    
     $scope.startButtonClicked = function(question) {
         requestObject = urlService().postRequest;
         requestObject.url = urlService().baseURL + '/api/competitions/' + modService.getRoomId() + '/challenges/' + question.id + '/start';

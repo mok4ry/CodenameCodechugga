@@ -85,7 +85,7 @@ questionApp.service('questionMappingService', function() {
                 name: question.name,
                 descritpion: question.text,
                 answer: question.answer,
-                id: question._id
+                id: question._id,
                 editing: true,
                 startEnabled: true
             };

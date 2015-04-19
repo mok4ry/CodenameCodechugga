@@ -41,6 +41,7 @@
                                 <textarea placeholder="Description" ng-model="question.description"></textarea><br />
                                 <textarea placeholder="Answer" ng-model="question.answer"></textarea><br />
                                 <button class="green-sea-flat-button" ng-click="saveButtonClicked(question)">Save</button>
+                                <button class="green-sea-flat-button red" ng-show="question.id == null" ng-click="cancelButtonClicked(question)">Cancel</button>
                             </div>
                         </div>
                     </div>
