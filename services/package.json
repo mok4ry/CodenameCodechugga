@@ -6,7 +6,8 @@
     "url": "git://github.com/scotch-io/node-token-authentication"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "testdata": "node load_test_data.js"
   },
   "author": "Eric, Matt, Kenny",
   "license": "MIT",
