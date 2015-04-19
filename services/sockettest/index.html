@@ -3,14 +3,24 @@
         <script src="https://cdn.socket.io/socket.io-1.3.4.js"></script>
         <script>
             var socket = io.connect('http://localhost:8080', { query:
-                "roomId=5532cba5c3630f7b05000002&userId=5532cba5c3630f7b05000001" });
+                "roomId=553316627519b6ba0c000002&userId=553316627519b6ba0c000001" });
 
-            socket.on('connected-to-challenge', function (info) {
+            socket.on('connected-to-competition', function (info) {
                 console.log(info);
             });
 
             socket.on('new-active-challenge', function (challenge) {
                 console.log(challenge);
+            });
+
+            socket.on('correct-answer-submitted', function (info) {
+                console.log("Correct answer submitted");
+                console.log(info);
+            });
+
+            socket.on('incorrect-answer-submitted', function (info) {
+                console.log("Incorrect answer submitted");
+                console.log(info);
             });
         </script>
     </head>
